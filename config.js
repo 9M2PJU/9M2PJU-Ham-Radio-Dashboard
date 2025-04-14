@@ -1,6 +1,5 @@
 const disableSetup = false;
-var topBarCenterText = `VA3HDL - FN04ga`;
-
+var topBarCenterText = "9M2PJU Ham Radio Dashboard";
 // Grid layout
 var layout_cols = 4;
 var layout_rows = 3;
@@ -10,44 +9,76 @@ var layout_rows = 3;
 // The values are [color code, menu text, target link, scale factor, side],
 // add new lines following the structure for extra menu options. The comma at the end is important!
 var aURL = [
-  ["2196F3", "CLUBLOG", "https://clublog.org/livestream/VA3HDL", "1.7"],
   [
-    "2196F3",
+    "#2196f3",
+    "CLUBLOG",
+    "https://clublog.org/livestream/9M2PJU",
+    1,
+    "undefined"
+  ],
+  [
+    "#2196f3",
     "CONTEST",
     "https://www.contestcalendar.com/fivewkcal.html",
-    "1",
+    1,
+    "undefined"
   ],
-  ["2196F3", "DX CLUSTER", "https://dxcluster.ha8tks.hu/map/", "1"],
   [
-    "2196F3",
+    "#2196f3",
+    "DX CLUSTER",
+    "https://cluster.f5len.org",
+    1,
+    "undefined"
+  ],
+  [
+    "#2196f3",
     "LIGHTNING",
-    "https://map.blitzortung.org/#3.87/36.5/-89.41",
-    "1",
-    "R",
-  ],
-  ["2196F3", "PISTAR", "http://pi-star.local/", "1.2"],
-  [
-    "2196F3",
-    "RADAR",
-    "https://weather.gc.ca/?layers=alert,radar&center=43.39961001,-78.53212031&zoom=6&alertTableFilterProv=ON",
-    "1",
+    "https://map.blitzortung.org/#6.08/4.123/109.318",
+    1,
     "R"
   ],
-  ["2196F3", "TIME.IS", "https://time.is/", "1", "R"],
   [
-    "2196F3",
+    "#2196f3",
+    "APRS Maps",
+    "https://maps.hamradio.my",
+    1,
+    "undefined"
+  ],
+  [
+    "#2196f3",
+    "TIME.IS",
+    "https://time.is/",
+    1,
+    "R"
+  ],
+  [
+    "#2196f3",
     "WEATHER",
-    "https://openweathermap.org/weathermap?basemap=map&cities=true&layer=temperature&lat=44.0157&lon=-79.4591&zoom=5",
-    "1",
-    "R",
+    "https://openweathermap.org/weathermap?basemap=map&cities=true&layer=temperature&lat=3.0418&lon=101.1731&zoom=7",
+    1,
+    "R"
   ],
   [
-    "2196F3",
+    "#2196f3",
     "WINDS",
-    "https://earth.nullschool.net/#current/wind/surface/level/orthographic=-78.79,44.09,3000",
-    "1",
-    "R",
+    "https://earth.nullschool.net/#current/wind/surface/level/orthographic=-250.62,2.37,1865/loc=107.017,2.805",
+    1,
+    "R"
   ],
+  [
+    "#000000",
+    "RAIN",
+    "https://www.accuweather.com/en/my/national/weather-radar",
+    1,
+    "R"
+  ],
+  [
+    "#000000",
+    "DX CLUSTER MAPS",
+    "https://dxcluster.dxcenter.com/",
+    1,
+    ""
+  ]
 ];
 
 // Dashboard items
@@ -57,43 +88,54 @@ var aURL = [
 // You can't add more items because there are only 12 placeholders on the dashboard
 // but you can replace the titles and the images with anything you want.
 var aIMG = [
-  ["RADAR", "https://radar.weather.gov/ridge/standard/CONUS_loop.gif"],
   [
-    "LOCAL RADAR",
-    "https://radar.weather.gov/ridge/standard/KNQA_loop.gif",
+    "RADAR",
+    "https://www.met.gov.my/data/radar_malaysia.gif?nocache=1742537882274"
   ],
   [
     "NOAA D-RAP",
-    "https://services.swpc.noaa.gov/images/animations/d-rap/global/d-rap/latest.png",
+    "https://services.swpc.noaa.gov/images/animations/d-rap/global/d-rap/latest.png"
   ],
   [
-    "ISS POSITION",
-    "https://www.heavens-above.com/orbitdisplay.aspx?icon=iss&width=600&height=300&mode=M&satid=25544",
+    "DX CLUSTER",
+    "iframe|https://dxcluster.ha8tks.hu/V2/map/"
   ],
   [
-    "SATELLITE CAN",
-    "https://cdn.star.nesdis.noaa.gov/GOES16/GLM/SECTOR/can/EXTENT3/GOES16-CAN-EXTENT3-1125x560.gif",
+    "WIND",
+    "iframe|https://earth.nullschool.net/#current/wind/surface/level/orthographic=-250.27,2.96,687/loc=102.330,3.825"
   ],
   [
-    "SATELLITE CGL",
-    "https://cdn.star.nesdis.noaa.gov/GOES16/GLM/SECTOR/cgl/EXTENT3/GOES16-CGL-EXTENT3-600x600.gif",
+    "RAIN",
+    "iframe|https://www.rainviewer.com/map.html?loc=3.5175,107.1469,4.264747586779227&oCS=1&c=3&o=83&lm=1&layer=radar&sm=1&sn=1"
   ],
   [
     "LIGHTNING",
-    "https://images.lightningmaps.org/blitzortung/america/index.php?animation=usa",
+    "https://images.lightningmaps.org/blitzortung/oceania/index.php?map=indonesia&period=0.25"
   ],
   [
-    "LIGHTNING LOCAL",
-    "https://www.blitzortung.org/en/Images/image_b_ny.png",
+    "ISS LIVE STREAM",
+    "iframe|https://www.youtube.com/embed/H999s0P1Er0?autoplay=1&mute=1"
   ],
-  ["YOUTUBE EXAMPLE", "iframe|https://www.youtube.com/embed/fzPFaXAV_2Y?autoplay=1&mute=1"],
   [
-    "WEBSITE EXAMPLE",
-    "iframe|https://globe.adsbexchange.com/?airport=YYZ",
+    "ADS-B",
+    "iframe|https://globe.adsbexchange.com/"
   ],
-  ["VIDEO EXAMPLE", "https://himawari8.nict.go.jp/movie/720/20240611_pifd.mp4"],
-  ["HF PROPAGATION",
-    "https://www.hamqsl.com/solar101vhf.php"],
+  [
+    "ISS LIVE TRACK",
+    "iframe|https://www.heavens-above.com/orbitdisplay.aspx?icon=iss&width=600&height=300&mode=M&satid=25544"
+  ],
+  [
+    "HF PROPAGATION",
+    "https://www.hamqsl.com/solar101vhf.php"
+  ],
+  [
+    "MUF",
+    "https://prop.kc2g.com/renders/current/mufd-normal-now.svg"
+  ],
+  [
+    "SEISMIC ACTIVITY",
+    "https://ds.iris.edu/seismon/views/eveday_big//imgs/topMap.eveday_big.gif"
+  ]
 ];
 
 // Image rotation intervals in milliseconds per tile - If the line below is commented, all tiles will be rotated every 30000 milliseconds (30s)
