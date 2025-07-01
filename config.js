@@ -133,8 +133,8 @@ var aIMG = [
     "https://prop.kc2g.com/renders/current/mufd-normal-now.svg"
   ],
   [
-    "SEISMIC ACTIVITY",
-    "https://ds.iris.edu/seismon/views/eveday_big//imgs/topMap.eveday_big.gif"
+    "MALAYSIA NOWCASTING",
+    "https://api.met.gov.my/static/images/swirl-latest.gif?nocache=1751342426058"
   ]
 ];
 
