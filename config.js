@@ -118,7 +118,7 @@ var aIMG = [
   ],
   [
     "ADS-B",
-    "iframe|https://globe.adsbexchange.com/"
+    "iframe|https://globe.adsb.fi/"
   ],
   [
     "ISS LIVE TRACK",
