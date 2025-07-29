@@ -106,7 +106,7 @@ var aIMG = [
   ],
   [
     "GREY LINE",
-    "iframe|https://www.timeanddate.com/scripts/sunmap.php?iso=20250729T1712&earth=1"
+    "https://www.timeanddate.com/scripts/sunmap.php?iso=20250729T1712&earth=1"
   ],
   [
     "LIGHTNING",
@@ -114,7 +114,7 @@ var aIMG = [
   ],
   [
     "IONOSPHERIC",
-    "iframe|https://www.sws.bom.gov.au/Images/HF%20Systems/Global%20HF/Ionospheric%20Map/East/fof2_maps.png"
+    "https://www.sws.bom.gov.au/Images/HF%20Systems/Global%20HF/Ionospheric%20Map/East/fof2_maps.png"
   ],
   [
     "ADS-B",
