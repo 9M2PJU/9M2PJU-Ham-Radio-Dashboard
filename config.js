@@ -102,7 +102,7 @@ var aIMG = [
   ],
   [
     "WIND",
-    "iframe|https://globalwindatlas.info/en/area/Malaysia"
+    "iframe|https://earth.nullschool.net/#current/wind/surface/level/orthographic=-251.68,4.07,2617"
   ],
   [
     "RAIN",
