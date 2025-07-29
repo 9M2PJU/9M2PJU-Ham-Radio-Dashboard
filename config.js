@@ -105,8 +105,8 @@ var aIMG = [
     "iframe|https://earth.nullschool.net/#current/wind/surface/level/orthographic=-249.94,4.31,1146"
   ],
   [
-    "RAIN",
-    "iframe|https://www.rainviewer.com/weather-radar-map-live.html?loc=3.9415,107.7775,4&oCS=1&c=3&o=83&lm=1&layer=radar&sm=1&sn=1"
+    "TEMPERATURE",
+    "iframe|https://www.ventusky.com/?p=4.4;108.1;5&l=temperature-2m&t=20250729/1700"
   ],
   [
     "LIGHTNING",
