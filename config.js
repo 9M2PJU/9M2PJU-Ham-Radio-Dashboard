@@ -93,36 +93,37 @@ var aIMG = [
     "https://www.met.gov.my/data/radar_malaysia.gif?nocache=1742537882274"
   ],
   [
-    "NOAA D-RAP",
-    "https://services.swpc.noaa.gov/images/animations/d-rap/global/d-rap/latest.png"
-  ],
-  [
-    "DX MAP",
-    "https://dxlook.com/?view=summary"
-  ],
-  [
-    "WIND",
-    "iframe|https://earth.nullschool.net/#current/wind/surface/level/orthographic=-249.94,4.31,1146"
-  ],
-  [
-    "GREY LINE",
-    "https://www.timeanddate.com/scripts/sunmap.php?iso=20250729T1712&earth=1"
+    "MALAYSIA NOWCASTING",
+    "https://api.met.gov.my/static/images/swirl-latest.gif?nocache=1751342426058"
   ],
   [
     "LIGHTNING",
     "https://images.lightningmaps.org/blitzortung/oceania/index.php?map=indonesia&period=0.25"
   ],
   [
-    "IONOSPHERIC",
-    "https://www.sws.bom.gov.au/Images/HF%20Systems/Global%20HF/Ionospheric%20Map/East/fof2_maps.png"
+    "WIND",
+    "iframe|https://earth.nullschool.net/#current/wind/surface/level/orthographic=-249.94,4.31,1146"
   ],
   [
-    "ADS-B",
+    "SEISMIC",
     "https://www.arcgis.com/apps/View/index.html?appid=e59532bdfb334b1da691f74e7e879685"
   ],
+  
   [
-    "ISS LIVE TRACK",
-    "iframe|https://www.heavens-above.com/orbitdisplay.aspx?icon=iss&width=600&height=300&mode=M&satid=25544"
+    "DX MAP",
+    "https://dxlook.com/?view=summary"
+  ],
+  [
+    "GREY LINE",
+    "https://www.timeanddate.com/scripts/sunmap.php?iso=20250729T1712&earth=1"
+  ],
+  [
+    "NOAA D-RAP",
+    "https://services.swpc.noaa.gov/images/animations/d-rap/global/d-rap/latest.png"
+  ],
+  [
+    "IONOSPHERIC",
+    "https://www.sws.bom.gov.au/Images/HF%20Systems/Global%20HF/Ionospheric%20Map/East/fof2_maps.png"
   ],
   [
     "HF PROPAGATION",
@@ -132,9 +133,10 @@ var aIMG = [
     "MUF",
     "https://prop.kc2g.com/renders/current/mufd-normal-now.svg"
   ],
+  
   [
-    "MALAYSIA NOWCASTING",
-    "https://api.met.gov.my/static/images/swirl-latest.gif?nocache=1751342426058"
+    "ISS TRACK",
+    "iframe|https://www.heavens-above.com/orbitdisplay.aspx?icon=iss&width=600&height=300&mode=M&satid=25544"
   ]
 ];
 
