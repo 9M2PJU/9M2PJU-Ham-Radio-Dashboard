@@ -98,11 +98,11 @@ var aIMG = [
   ],
   [
     "DX MAP",
-    "iframe|https://dxmap.f5uii.net/"
+    "iframe|https://dxlook.com/?view=summary"
   ],
   [
     "WIND",
-    "iframe|https://earth.nullschool.net/#current/wind/surface/level/orthographic=-250.27,2.96,687/loc=102.330,3.825"
+    "iframe|https://earth.nullschool.net/#current/wind/surface/level/orthographic=-250.73,2.54,2970/loc=102.330,3.825"
   ],
   [
     "RAIN",
