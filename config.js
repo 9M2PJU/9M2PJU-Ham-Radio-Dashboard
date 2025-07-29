@@ -127,10 +127,10 @@ var aIMG = [
   ],
   [
     "HF PROPAGATION",
-    "iframe|https://www.hamqsl.com/solarmuf.php",
-    "iframe|https://www.hamqsl.com/solarmap.php",
-    "iframe|https://services.swpc.noaa.gov/images/swx-overview-large.gif",
-    "iframe|https://services.swpc.noaa.gov/images/animations/wam-ipe/wfs_ionosphere_new/latest.png"
+    "https://www.hamqsl.com/solarmuf.php",
+    "https://www.hamqsl.com/solarmap.php",
+    "https://services.swpc.noaa.gov/images/swx-overview-large.gif",
+    "https://services.swpc.noaa.gov/images/animations/wam-ipe/wfs_ionosphere_new/latest.png"
   ],
   [
     "MUF",
