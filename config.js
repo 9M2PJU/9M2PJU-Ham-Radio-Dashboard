@@ -130,7 +130,7 @@ var aIMG = [
     "iframe|https://www.hamqsl.com/solarmuf.php",
     "iframe|https://www.hamqsl.com/solarmap.php",
     "iframe|https://services.swpc.noaa.gov/images/swx-overview-large.gif",
-    "iframe|https://services.swpc.noaa.gov/images/animations/wam-ipe/wfs_ionosphere_new/latest.png
+    "iframe|https://services.swpc.noaa.gov/images/animations/wam-ipe/wfs_ionosphere_new/latest.png"
   ],
   [
     "MUF",
