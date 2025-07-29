@@ -115,7 +115,7 @@ var aIMG = [
   ],
   [
     "GREY LINE",
-    "https://www.timeanddate.com/scripts/sunmap.php?iso=20250729T1712&earth=1"
+    "https://www.timeanddate.com/scripts/sunmap.php?iso=now"
   ],
   [
     "NOAA D-RAP",
