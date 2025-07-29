@@ -141,10 +141,12 @@ var aIMG = [
 ];
 
 // Image rotation intervals in milliseconds per tile - If the line below is commented, all tiles will be rotated every 30000 milliseconds (30s)
+// tileDelay array sets the rotation interval (in ms) for each dashboard tile, in order.
+// Set to 2 minutes (120000 ms) for each tile.
 var tileDelay = [
-  11200,10000,31000,30100,
-  30200,10500,10300,30600,
-  30400,60700,60900,10800
+  120000, 120000, 120000, 120000,
+  120000, 120000, 120000, 120000,
+  120000, 120000, 120000, 120000
 ];
 
 // RSS feed items
