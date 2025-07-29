@@ -106,7 +106,7 @@ var aIMG = [
   ],
   [
     "RAIN",
-    "iframe|https://www.rainviewer.com/weather-radar-map-live.html?loc=4.2045,107.0304,5&oC=true&oCS=1&c=3&o=83&lm=1&layer=radar&sm=1&sn=1"
+    "iframe|https://assets.weather-forecast.com/maps/static/Malaysia.prec.3.cc23.jpg"
   ],
   [
     "LIGHTNING",
