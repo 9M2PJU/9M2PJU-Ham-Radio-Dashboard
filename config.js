@@ -97,8 +97,8 @@ var aIMG = [
     "https://services.swpc.noaa.gov/images/animations/d-rap/global/d-rap/latest.png"
   ],
   [
-    "DX CLUSTER",
-    "iframe|https://dxcluster.ha8tks.hu/V2/map/"
+    "HF PROP",
+    "iframe|https://dxlook.com/?view=summary"
   ],
   [
     "WIND",
