@@ -102,11 +102,11 @@ var aIMG = [
   ],
   [
     "WIND",
-    "iframe|https://zoom.earth/places/malaysia/#map=wind-speed/model=icon"
+    "https://zoom.earth/places/malaysia/#map=wind-speed/model=icon"
   ],
   [
     "RAIN",
-    "iframe|https://www.rainviewer.com/map.html?loc=4.2045,107.0304,5&oC=true&oCS=1&c=3&o=83&lm=1&layer=radar&sm=1&sn=1"
+    "https://www.rainviewer.com/map.html?loc=4.2045,107.0304,5&oC=true&oCS=1&c=3&o=83&lm=1&layer=radar&sm=1&sn=1"
   ],
   [
     "LIGHTNING",
