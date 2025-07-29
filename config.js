@@ -102,7 +102,7 @@ var aIMG = [
   ],
   [
     "WIND",
-    "iframe|https://zoom.earth/places/malaysia/#map=wind-speed/model=icon"
+    "iframe|https://globalwindatlas.info/en/area/Malaysia"
   ],
   [
     "RAIN",
