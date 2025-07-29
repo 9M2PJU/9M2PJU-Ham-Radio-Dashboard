@@ -89,15 +89,15 @@ var aURL = [
 // but you can replace the titles and the images with anything you want.
 var aIMG = [
   [
-    "RADAR",
+    "MALAYSIA RADAR",
     "https://www.met.gov.my/data/radar_malaysia.gif?nocache=1742537882274"
   ],
   [
-    "MALAYSIA NOWCASTING",
+    "MALAYSIA NOWCAST",
     "https://api.met.gov.my/static/images/swirl-latest.gif?nocache=1751342426058"
   ],
   [
-    "LIGHTNING",
+    "MALAYSIA LIGHTNING",
     "https://images.lightningmaps.org/blitzortung/oceania/index.php?map=indonesia&period=0.25"
   ],
   [
@@ -105,11 +105,11 @@ var aIMG = [
     "iframe|https://earth.nullschool.net/#current/wind/surface/level/orthographic=-249.94,4.31,1146"
   ],
   [
-    "SEISMIC",
+    "WORLD SEISMIC",
     "iframe|https://www.arcgis.com/apps/View/index.html?appid=e59532bdfb334b1da691f74e7e879685"
   ],
   [
-    "DX MAP",
+    "WORLD DX MAP",
     "iframe|https://dxlook.com/?view=summary"
   ],
   [
