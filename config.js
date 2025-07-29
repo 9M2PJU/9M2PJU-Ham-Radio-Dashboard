@@ -114,7 +114,7 @@ var aIMG = [
   ],
   [
     "IONOSPHERIC",
-    "iframe|https://www.sws.bom.gov.au/Images/HF%20Systems/Global%20HF/Ionospheric%20Map/East/fof2_maps/RF_20250729_1345.png"
+    "iframe|https://www.sws.bom.gov.au/Images/HF%20Systems/Global%20HF/Ionospheric%20Map/East/fof2_maps.png"
   ],
   [
     "ADS-B",
