@@ -110,7 +110,7 @@ var aIMG = [
   ],
   [
     "LIVE DX MAP",
-    "iframe|hf.dxview.org"
+    "iframe|https://dxlook.com/?view=summary"
   ],
   [
     "GREY LINE",
