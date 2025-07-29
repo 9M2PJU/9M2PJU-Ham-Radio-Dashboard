@@ -105,8 +105,8 @@ var aIMG = [
     "iframe|https://earth.nullschool.net/#current/wind/surface/level/orthographic=-249.94,4.31,1146"
   ],
   [
-    "TEMPERATURE",
-    "iframe|https://www.ventusky.com/?p=4.4;108.1;5&l=temperature-2m&t=20250729/1700"
+    "GREY LINE",
+    "iframe|https://www.timeanddate.com/scripts/sunmap.php?iso=20250729T1712&earth=1"
   ],
   [
     "LIGHTNING",
