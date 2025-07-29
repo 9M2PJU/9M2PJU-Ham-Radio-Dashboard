@@ -106,7 +106,7 @@ var aIMG = [
   ],
   [
     "RAIN",
-    "iframe|https://www.rainviewer.com/map.html?loc=3.5175,107.1469,4.264747586779227&oCS=1&c=3&o=83&lm=1&layer=radar&sm=1&sn=1"
+    "iframe|https://www.rainviewer.com/weather-radar-map-live.html?loc=4.2045,107.0304,5&oC=true&oCS=1&c=3&o=83&lm=1&layer=radar&sm=1&sn=1"
   ],
   [
     "LIGHTNING",
