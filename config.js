@@ -111,7 +111,7 @@ var aIMG = [
   
   [
     "DX MAP",
-    "iframe|https://dxlook.com/?view=summary"
+    "https://dxlook.com/?view=summary"
   ],
   [
     "GREY LINE",
