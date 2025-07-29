@@ -126,7 +126,6 @@ var aIMG = [
   ],
   [
     "HF PROPAGATION",
-    "https://www.hamqsl.com/solar101vhf.php"
     "https://www.hamqsl.com/solarmap.php"
   ],
   [
