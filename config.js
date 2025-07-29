@@ -1,4 +1,4 @@
-const disableSetup = false;
+const disableSetup = true;
 var topBarCenterText = "9M2PJU Ham Radio Dashboard";
 // Grid layout
 var layout_cols = 4;
