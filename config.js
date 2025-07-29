@@ -139,11 +139,11 @@ var aIMG = [
 ];
 
 // Image rotation intervals in milliseconds per tile - If the line below is commented, all tiles will be rotated every 30000 milliseconds (30s)
-//var tileDelay = [
-//  11200,10000,11000,10100,
-//  10200,10500,10300,10600,
-//  30400,60700,60900,10800
-//];
+var tileDelay = [
+  11200,10000,11000,10100,
+  10200,10500,10300,10600,
+  30400,60700,60900,10800
+];
 
 // RSS feed items
 // Structure is [feed URL, refresh interval in minutes]
