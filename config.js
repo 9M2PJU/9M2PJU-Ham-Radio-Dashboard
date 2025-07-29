@@ -147,9 +147,9 @@ var aIMG = [
 // tileDelay array sets the rotation interval (in ms) for each dashboard tile, in order.
 // Set to 2 minutes (120000 ms) for each tile.
 var tileDelay = [
-  120000, 120000, 120000, 120000,
-  120000, 120000, 120000, 120000,
-  120000, 120000, 120000, 120000
+  30000, 30000, 30000, 30000,
+  30000, 30000, 30000, 30000,
+  30000, 30000, 30000, 30000
 ];
 
 // RSS feed items
