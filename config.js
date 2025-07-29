@@ -106,12 +106,11 @@ var aIMG = [
   ],
   [
     "SEISMIC",
-    "https://www.arcgis.com/apps/View/index.html?appid=e59532bdfb334b1da691f74e7e879685"
+    "iframe|https://www.arcgis.com/apps/View/index.html?appid=e59532bdfb334b1da691f74e7e879685"
   ],
-  
   [
     "DX MAP",
-    "https://dxlook.com/?view=summary"
+    "iframe|https://dxlook.com/?view=summary"
   ],
   [
     "GREY LINE",
@@ -127,8 +126,6 @@ var aIMG = [
   ],
   [
     "HF PROPAGATION",
-    "iframe|https://www.hamqsl.com/solarmuf.php",
-    "iframe|https://www.hamqsl.com/solarmap.php",
     "https://services.swpc.noaa.gov/images/swx-overview-large.gif",
     "https://services.swpc.noaa.gov/images/animations/wam-ipe/wfs_ionosphere_new/latest.png"
   ],
