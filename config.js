@@ -110,7 +110,7 @@ var aIMG = [
   ],
   [
     "LIVE DX MAP",
-    "hf.dxview.org"
+    "iframe|hf.dxview.org"
   ],
   [
     "GREY LINE",
