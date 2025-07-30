@@ -11,8 +11,8 @@ var layout_rows = 3;
 var aURL = [
   [
     "#2196f3",
-    "MARTS WEB SDR",
-    "http://eshail.marts.org.my:8072/",
+    "CLUBLOG",
+    "https://clublog.org/livestream/9M2PJU",
     1,
     "undefined"
   ],
