@@ -1,5 +1,5 @@
 const disableSetup = true;
-var topBarCenterText = "9M2PJU Ham Radio Dashboard";
+var topBarCenterText = "🇲🇾 9M2PJU Ham Radio Dashboard";
 // Grid layout
 var layout_cols = 4;
 var layout_rows = 3;
@@ -11,14 +11,14 @@ var layout_rows = 3;
 var aURL = [
   [
     "#2196f3",
-    "CLUBLOG",
-    "https://clublog.org/livestream/9M2PJU",
+    "MARTS WEB SDR",
+    "http://eshail.marts.org.my:8072/",
     1,
     "undefined"
   ],
   [
     "#2196f3",
-    "CONTEST",
+    "CONTEST CALENDAR",
     "https://www.contestcalendar.com/fivewkcal.html",
     1,
     "undefined"
@@ -39,14 +39,14 @@ var aURL = [
   ],
   [
     "#2196f3",
-    "APRS Map",
+    "APRS MAP",
     "https://maps.hamradio.my",
     1,
     "undefined"
   ],
   [
     "#2196f3",
-    "TIME.IS",
+    "TIME",
     "https://time.is/",
     1,
     "R"
