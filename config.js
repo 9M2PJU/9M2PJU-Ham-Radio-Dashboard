@@ -39,7 +39,7 @@ var aURL = [
   ],
   [
     "#2196f3",
-    "APRS Maps",
+    "APRS Map",
     "https://maps.hamradio.my",
     1,
     "undefined"
@@ -74,7 +74,7 @@ var aURL = [
   ],
   [
     "#000000",
-    "DX CLUSTER MAPS",
+    "DX CLUSTER MAP",
     "https://dxcluster.dxcenter.com/",
     1,
     ""
@@ -112,7 +112,7 @@ var aIMG = [
     "LIVE DX MAP",
     "iframe|https://dxlook.com/?view=summary"
     "iframe|https://dxcluster.ha8tks.hu/map/"
-    
+
   ],
   [
     "GREY LINE",
