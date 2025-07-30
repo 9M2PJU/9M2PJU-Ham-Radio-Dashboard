@@ -111,6 +111,8 @@ var aIMG = [
   [
     "LIVE DX MAP",
     "iframe|https://dxlook.com/?view=summary"
+    "iframe|https://dxcluster.ha8tks.hu/map/"
+    
   ],
   [
     "GREY LINE",
