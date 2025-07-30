@@ -117,7 +117,6 @@ var aIMG = [
   [
     "GREY LINE",
     "https://www.timeanddate.com/scripts/sunmap.php?iso=now"
-    "https://dx.qsl.net/images/greyline-20235.jpg" 
   ],
   [
     "NOAA D-RAP",
