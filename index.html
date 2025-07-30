@@ -1242,11 +1242,7 @@ var tileDelay = ${JSON.stringify(settings.aImages.map(item => item[2]), null, 2)
                       typeof subItem === "string" &&
                       (subItem.includes("BACK") ||
                         subItem.includes("Back") ||
-                        subItem.includes("Refresh") ||
-                        subItem.includes("Setup") ||
-                        subItem.includes("Sources") ||
-                        subItem.includes("Update") ||
-                        subItem.includes("Help"))
+                        subItem.includes("Refresh"))
                   )
               );
           window.settings.aURL = filteredAURL;
