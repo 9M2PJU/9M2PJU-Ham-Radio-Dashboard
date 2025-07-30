@@ -28,25 +28,7 @@
       rel="stylesheet"
     />
     <title>🇲🇾 9M2PJU Ham Radio Dashboard</title>
-    <!--
-	Hamdash
-	License: MIT
-  Copyright (c) 2025 Pablo Sabbag, VA3HDL
-	https://www.va3hdl.com/projects/hamdash
-
-  Credits:
-  Project inspired by the concept of DAVID A GOLD callsign N2MXX published at https://nject.us/HAMSHACK-DASHBOARD-O.html
---
-
-.d8888. d888888b db    db db      d88888b .d8888.
-88'  YP `~~88~~' `8b  d8' 88      88'     88'  YP
-`8bo.      88     `8bd8'  88      88ooooo `8bo.
-  `Y8b.    88       88    88      88~~~~~   `Y8b.
-db   8D    88       88    88booo. 88.     db   8D
-`8888Y'    YP       YP    Y88888P Y88888P `8888Y'
-
-
--->
+    
     <style>
       body, html {
         background: black;
@@ -59,7 +41,6 @@ db   8D    88       88    88booo. 88.     db   8D
         align-items: center;
       }
 
-      /* Style for the div containing the iframe */
       .iframe-container {
         background-color: black;
         border: 0px none;
@@ -350,9 +331,6 @@ db   8D    88       88    88booo. 88.     db   8D
         font-size: 20px;
       }
 
-      /************************/
-      /* Settings page styles */
-      /************************/
       .settings-Page {
         display: none;
         font-family: Arial, sans-serif;
@@ -461,9 +439,6 @@ db   8D    88       88    88booo. 88.     db   8D
         font-weight: normal;
       }
 
-      /************************/
-      /* Settings RSS styles  */
-      /************************/
       .rss-ticker {
         position: fixed;
         bottom: 0;
@@ -500,14 +475,6 @@ db   8D    88       88    88booo. 88.     db   8D
       }
     </style>
 
-    <!--
-.d8888.  .o88b. d8888b. d888888b d8888b. d888888b .d8888.
-88'  YP d8P  Y8 88  `8D   `88'   88  `8D `~~88~~' 88'  YP
-`8bo.   8P      88oobY'    88    88oodD'    88    `8bo.
-  `Y8b. 8b      88`8b      88    88~~~      88      `Y8b.
-db   8D Y8b  d8 88 `88.   .88.   88         88    db   8D
-`8888Y'  `Y88P' 88   YD Y888888P 88         YP    `8888Y'
--->
     <script src="wheelzoom.js"></script>
     <script>
       // Track critical page events
@@ -521,13 +488,6 @@ db   8D Y8b  d8 88 `88.   .88.   88         88    db   8D
 
       // Track script execution
       console.log('►►► Script loaded and running');
-
-      //   .d8888. d88888b d888888b d888888b d888888b d8b   db  d888b  .d8888.      .d8888. d88888b  .o88b. d888888b d888888b  .d88b.  d8b   db
-      //   88'  YP 88'     `~~88~~' `~~88~~'   `88'   888o  88 88' Y8b 88'  YP      88'  YP 88'     d8P  Y8 `~~88~~'   `88'   .8P  Y8. 888o  88
-      //   `8bo.   88ooooo    88       88       88    88V8o 88 88      `8bo.        `8bo.   88ooooo 8P         88       88    88    88 88V8o 88
-      //     `Y8b. 88~~~~~    88       88       88    88 V8o88 88  ooo   `Y8b.        `Y8b. 88~~~~~ 8b         88       88    88    88 88 V8o88
-      //   db   8D 88.        88       88      .88.   88  V888 88. ~8~ db   8D      db   8D 88.     Y8b  d8    88      .88.   `8b  d8' 88  V888
-      //   `8888Y' Y88888P    YP       YP    Y888888P VP   V8P  Y888P  `8888Y'      `8888Y' Y88888P  `Y88P'    YP    Y888888P  `Y88P'  VP   V8P
 
       function getColumnHeaderTitle(tableId, columnNumber) {
         const table = document.getElementById(tableId);
@@ -989,15 +949,7 @@ var tileDelay = ${JSON.stringify(settings.aImages.map(item => item[2]), null, 2)
         document.getElementById('layout_rows').onblur = updateValue;
        
       }); // End of DOMContentLoaded here
-      // End Settings Section
-
-      // db    db d888888b d888888b db      d888888b d888888b db    db      .d8888. d88888b  .o88b. d888888b d888888b  .d88b.  d8b   db
-      // 88    88 `~~88~~'   `88'   88        `88'   `~~88~~' `8b  d8'      88'  YP 88'     d8P  Y8 `~~88~~'   `88'   .8P  Y8. 888o  88
-      // 88    88    88       88    88         88       88     `8bd8'       `8bo.   88ooooo 8P         88       88    88    88 88V8o 88
-      // 88    88    88       88    88         88       88       88           `Y8b. 88~~~~~ 8b         88       88    88    88 88 V8o88
-      // 88b  d88    88      .88.   88booo.   .88.      88       88         db   8D 88.     Y8b  d8    88      .88.   `8b  d8' 88  V888
-      // ~Y8888P'    YP    Y888888P Y88888P Y888888P    YP       YP         `8888Y' Y88888P  `Y88P'    YP    Y888888P  `Y88P'  VP   V8P
-
+      
       function minimalConfiguration() {
         // Default settings
         window.disableSetup = false;
@@ -1129,25 +1081,6 @@ var tileDelay = ${JSON.stringify(settings.aImages.map(item => item[2]), null, 2)
       help += "Double click again to close full screen view.\n";
       help += "Right click on an image to display the next one.\n";
       help += "Images rotates every 60 seconds automatically by default.\n";
-
-      const currentVersion = "v2025.04.02";
-
-      async function getLatestVersion() {
-        try {
-          const response = await fetch(
-            "https://api.github.com/repos/VA3HDL/hamdashboard/releases/latest"
-          );
-          const data = await response.json();
-          return data.tag_name;
-        } catch (error) {
-          console.error("Error fetching the latest version:", error);
-          return currentVersion; // Fallback to the current version if there's an error
-        }
-      }
-
-      function isNewVersionAvailable(currentVersion, latestVersion) {
-        return currentVersion !== latestVersion;
-      }
 
       bUpdate = false;
       async function checkForUpdates() {
@@ -1502,13 +1435,6 @@ var tileDelay = ${JSON.stringify(settings.aImages.map(item => item[2]), null, 2)
         });
       }
 
-      // .d8888. d888888b  .d8b.  d8888b. d888888b
-      // 88'  YP `~~88~~' d8' `8b 88  `8D `~~88~~'
-      // `8bo.      88    88ooo88 88oobY'    88
-      //   `Y8b.    88    88~~~88 88`8b      88
-      // db   8D    88    88   88 88 `88.    88
-      // `8888Y'    YP    YP   YP 88   YD    YP
-
       function start() {
         // Configurable grid layout logic. Defaults to standard 4 columns by 3 rows if values are missing in config.js file.
         var layout_cols = typeof window.layout_cols === "undefined" ? 4 : window.layout_cols;
@@ -1565,11 +1491,6 @@ var tileDelay = ${JSON.stringify(settings.aImages.map(item => item[2]), null, 2)
         if (typeof disableSetup === "undefined" || !disableSetup) {
           aURL.push(
             ["ff9100", "Setup", "#", "1", "R"]
-        )
-        }
-
-        aURL.push(
-          ["0dd1a7", "Sources", "#", "1", "R"]
         );
 
         // Append the Update option to the right side menu if needed
@@ -1753,14 +1674,6 @@ var tileDelay = ${JSON.stringify(settings.aImages.map(item => item[2]), null, 2)
       checkForUpdates();
     </script>
   </head>
-  <!--
-d8888b.  .d88b.  d8888b. db    db
-88  `8D .8P  Y8. 88  `8D `8b  d8'
-88oooY' 88    88 88   88  `8bd8'
-88~~~b. 88    88 88   88    88
-88   8D `8b  d8' 88  .8D    88
-Y8888P'  `Y88P'  Y8888D'    YP
--->
   <body onload="main()">
     <div id="iFrameContainer" class="iframe-container">
       <iframe id="FullScreen" class="full-screen" src="" title="Zoom"></iframe>
