@@ -856,10 +856,7 @@ db   8D Y8b  d8 88 `88.   .88.   88         88    db   8D
                       typeof subItem === "string" &&
                       (subItem.includes("BACK") ||
                         subItem.includes("Back") ||
-                        subItem.includes("Refresh") ||
-                        subItem.includes("Sources") ||
-                        subItem.includes("Update") ||
-                        subItem.includes("Help"))
+                        subItem.includes("Refresh"))
                   )
               );
 
@@ -1270,8 +1267,9 @@ var tileDelay = ${JSON.stringify(settings.aImages.map(item => item[2]), null, 2)
           document.getElementById("array3").innerHTML =
             "<br>" + formatArray(aRSS) + "<br><br>";            
           document.getElementById("array4").innerHTML =
-           `<br>Copyright (c) 2025 Pablo Sabbag, VA3HDL | Open Source License: MIT<br>
-            <br>Dashboard codebase version: ${currentVersion}<br><br>`;
+          document.getElementById("array4").innerHTML =
+           `<br>9M2PJU Ham Radio Dashboard<br>
+            <br><br><br>`;
           document.getElementById("overlay").style.display = "block";
         } else if (aURL[num][1].toLowerCase() == "update") {
           window
