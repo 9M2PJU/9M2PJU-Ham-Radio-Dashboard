@@ -1559,12 +1559,7 @@ var tileDelay = ${JSON.stringify(settings.aImages.map(item => item[2]), null, 2)
         if (typeof disableSetup === "undefined" || !disableSetup) {
           aURL.push(
             ["ff9100", "Setup", "#", "1", "R"]
-          )
-        }
-
-        aURL.push(
-          ["0dd1a7", "Sources", "#", "1", "R"]
-        );
+          );
 
         // Append the Update option to the right side menu if needed
         if (bUpdate) {
