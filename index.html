@@ -64,7 +64,6 @@
         z-index: -2;
       }
 
-      /* Style for the iframe element */
       .full-screen {
         background-color: black;
         border: 0px none;
@@ -120,14 +119,12 @@
         font-size: 1.4vw;
       }
 
-      /* Default variables values for grid layout 4 cols x 3 rows */
       :root {
         --main-layout: auto auto auto auto;
         --main-width: 24.9vw;
         --main-height: 31vh;
       }
 
-      /* Style for the dashboard container */
       .dashboard {
         display: grid;
         grid-template-columns: var(--main-layout);
@@ -139,7 +136,6 @@
         width: 100%;
       }
 
-      /* Style for the image container */
       .image-container {
         position: relative;
         float: inline-start;
@@ -149,13 +145,13 @@
         width: var(--main-width);
         overflow: hidden;
         display: flex;
-        justify-content: center; /* Horizontal centering */
-        align-items: center; /* Vertical centering */
-        border-radius: 5px; /* Rounded corners */
+        justify-content: center; 
+        align-items: center; 
+        border-radius: 5px; 
       }
 
       .iframe-tile {
-        position: absolute; /* it must be absolute */
+        position: absolute; 
         float: inline-start;
         overflow: hidden;
         border: 0px none;
@@ -163,22 +159,20 @@
         height: var(--main-height);
         width: var(--main-width);
         margin: 0;
-        border-radius: 5px; /* Rounded corners */
+        border-radius: 5px; 
       }
 
-      /* Style for the image */
       .image-container img {
         height: 100%;
         width: 100%;
       }
 
-      /* Style for the image titles */
       .image-title {
         position: absolute;
         top: 6%;
         left: 50%;
         transform: translate(-50%, -50%);
-        color: white; /* font color */
+        color: white;
         background-color: black;
         font-size: 1vw;
         border-left: 0.25vw solid black;
@@ -190,7 +184,6 @@
         padding-top: 1px;
       }
 
-      /* Style for the full screen image */
       .image-large {
         display: block;
         position: relative;
@@ -212,7 +205,6 @@
         display: none;
       }
 
-      /* Style for the left menu options */
       .menu {
         display: grid;
         grid-gap: 3px;
@@ -225,7 +217,6 @@
         transition: 0.3s;
       }
 
-      /* Style for the right menu options */
       .menuR {
         display: grid;
         grid-gap: 3px;
@@ -320,7 +311,7 @@
         background-color: #333;
         padding: 20px;
         border-radius: 10px;
-        max-height: 80vh; /* Ensures the overlay content is scrollable if it exceeds the viewport height */
+        max-height: 80vh;
         overflow-y: auto;
       }
 
@@ -457,7 +448,7 @@
         display: inline-block;
         padding-left: 100%;
         animation: ticker var(--ticker-duration, 90s) linear infinite;        
-        animation-play-state: running; /* Default state is running */
+        animation-play-state: running;
       }
 
       .rss-ticker-content a {
@@ -477,7 +468,6 @@
 
     <script src="wheelzoom.js"></script>
     <script>
-      // Track critical page events
       window.addEventListener('DOMContentLoaded', () => {
         console.log('►►► DOMContentLoaded fired');
       });
@@ -486,7 +476,6 @@
         console.log('►►► Page fully loaded');
       });
 
-      // Track script execution
       console.log('►►► Script loaded and running');
 
       function getColumnHeaderTitle(tableId, columnNumber) {
@@ -506,7 +495,6 @@
       }
 
       document.addEventListener("DOMContentLoaded", () => {
-        // Default Values
         const defaults = {
           settingsSource: "localStorage",
           topBarCenterText: "CALLSIGN - Locator",
@@ -528,12 +516,14 @@
             ["Tile 12", ["https://picsum.photos/seed/picsum/200/300"], 30000],
           ],
           aRSS: [
-            ["https://www.amsat.org/feed/", 60],           // Example RSS feed
-            ["https://daily.hamweekly.com/atom.xml", 60], // Example Atom feed
+            ["https://www.amsat.org/feed/", 60],           
+            ["https://daily.hamweekly.com/atom.xml", 60],
+            ["https://www.eham.net/rss/latest_news.php", 60],
+            ["https://www.hamradio.com/rss.xml", 60],
+            ["https://www.qrz.com/news.rss", 60],
           ],
         };
 
-        // Load from LocalStorage or Defaults
         settings = JSON.parse(localStorage.getItem("hamdash_config")) || {
           ...defaults,
         };
@@ -544,18 +534,15 @@
           ).checked = true;
         }
 
-        // Utility to Update Dashboard Items to Match Layout
         adjustDashboardItems = () => {
           const totalItems = settings.layout_cols * settings.layout_rows;
           const currentItems = settings.aImages.length;
 
           if (currentItems < totalItems) {
-            // Add new placeholders if there are fewer items than needed
             for (let i = currentItems; i < totalItems; i++) {
-              settings.aImages.push(["", [""], 5000]); // Default title, image array, and rotation interval
+              settings.aImages.push(["", [""], 5000]);
             }
           } else if (currentItems > totalItems) {
-            // Remove excess items
             settings.aImages.splice(totalItems);
           }
 
@@ -583,7 +570,6 @@
           ]);
         };
 
-        // Utility to Update Tables
         const updateTable = (tableId, data, columns) => {
           const tbody = document.querySelector(`#${tableId} tbody`);
           tbody.innerHTML = "";
@@ -591,7 +577,7 @@
             const row = document.createElement("tr");
             columns.forEach((col, colIndex) => {
               const cell = document.createElement("td");
-              if (tableId == "menuTable" && colIndex==0){                        // Color column for Menu options
+              if (tableId == "menuTable" && colIndex==0){                        
                 const colorInput = document.createElement("input");
                 colorInput.type = "color";
                 colorInput.value = "#"+item[colIndex].replace("#", "");
@@ -599,7 +585,6 @@
                 cell.appendChild(colorInput);
               } else {
                 if (Array.isArray(item[colIndex])) {
-                  // Handle array of image URLs
                   const container = document.createElement("div");
                   item[colIndex].forEach((url, urlIndex) => {
                     const textarea = document.createElement("input");
@@ -668,15 +653,13 @@
           });
         };
 
-        // Load Initial Data
         document.getElementById("CenterText").value = settings.topBarCenterText;
         document.getElementById("layout_cols").value = settings.layout_cols;
         document.getElementById("layout_rows").value = settings.layout_rows;
         updateMenuTable();
         updateFeedTable();
-        adjustDashboardItems(); // Ensure dashboard items match layout on load
+        adjustDashboardItems();
 
-        // Save Configuration
         document.getElementById("saveConfig").onclick = () => {
           settings.settingsSource = document.querySelector(
             'input[name="settingsSource"]:checked'
@@ -692,7 +675,6 @@
             10
           );
 
-          // Update aURL from the table
           const menuTableRows = document.querySelectorAll("#menuTable tbody tr");
           settings.aURL = Array.from(menuTableRows).map(row => {
             const cells = row.querySelectorAll("td");
@@ -705,13 +687,12 @@
             ];
           });
 
-          // Update aRSS from the table
           const feedTableRows = document.querySelectorAll("#feedTable tbody tr");
           settings.aRSS = Array.from(feedTableRows).map(row => {
             const cells = row.querySelectorAll("td");
             return [
-              cells[0].querySelector("input").value,              // Feed URL
-              parseInt(cells[1].querySelector("input").value, 10) // Refresh Interval
+              cells[0].querySelector("input").value,              
+              parseInt(cells[1].querySelector("input").value, 10) 
             ];
           });
           
@@ -723,7 +704,6 @@
           adjustDashboardItems();
         };
 
-        // Reset to Defaults
         document.getElementById("resetConfig").onclick = () => {
           localStorage.setItem("hamdash_config", JSON.stringify(defaults));
           alert("Settings reset to defaults!");
@@ -734,18 +714,15 @@
           adjustDashboardItems();
         };
 
-        // Delete Configuration from local storage
         document.getElementById("deleteConfig").onclick = () => {
           window.localStorage.removeItem('hamdash_config');
           alert("Deleted local storage settings!");
-          // settings = defaults;
           updateInputs();
           updateMenuTable();
           updateFeedTable();
           adjustDashboardItems();
         };
 
-        // Backup Configuration
         document.getElementById("backupConfig").onclick = () => {
           const dataStr =
             "data:text/json;charset=utf-8," +
@@ -761,7 +738,6 @@
           downloadAnchorNode.remove();
         };
 
-        // Restore Configuration
         document.getElementById("restoreConfig").onclick = () => {
           const input = document.createElement("input");
           input.type = "file";
@@ -782,7 +758,6 @@
           input.click();
         };
 
-        // Import config.js
         document.getElementById("importConfig").onclick = () => {
           const input = document.createElement("input");
           input.type = "file";
@@ -791,7 +766,6 @@
             const file = event.target.files[0];
             const reader = new FileReader();
             reader.onload = (e) => {
-              // Wrap the content in an IIFE to avoid polluting the global scope
               const configScript = `(function() {
                 ${e.target.result}
                 return {
@@ -805,10 +779,8 @@
                 };
               })()`;
 
-              // Evaluate the IIFE and get the variables
               const config = eval(configScript);
 
-              // Filter out sub-arrays from aURL containing "BACK" or "Refresh"
               const filteredAURL = config.aURL.filter(
                 (item) =>
                   !item.some(
@@ -823,14 +795,12 @@
                   )
               );
 
-              // Create a JSON structure from the variables
               const configJSON = {
                 topBarCenterText: config.topBarCenterText,
                 layout_cols: config.layout_cols,
                 layout_rows: config.layout_rows,
                 aURL: filteredAURL,
                 aImages: config.aIMG.map((item, index) => {
-                  // Arrange all items from second to last in a sub-array
                   const [first, ...rest] = item;
                   return [first, rest, config.tileDelay[index]];
                 }),
@@ -890,19 +860,16 @@ var tileDelay = ${JSON.stringify(settings.aImages.map(item => item[2]), null, 2)
           downloadAnchorNode.remove();
         };
 
-        // Add New Menu Item
         document.getElementById("addMenuItem").onclick = () => {
           settings.aURL.push(["", "", "", "", ""]);
           updateMenuTable();
         };
 
-        // Add New Feed Item
         document.getElementById("addFeedItem").onclick = () => {
           settings.aRSS.push([""]);
           updateFeedTable();
         };
 
-        // Update Dashboard Items When Layout Changes
         document
           .getElementById("layout_cols")
           .addEventListener("change", () => {
@@ -934,7 +901,6 @@ var tileDelay = ${JSON.stringify(settings.aImages.map(item => item[2]), null, 2)
           document.getElementById("layout_rows").value = settings.layout_rows;
         }
 
-        // Function to update the variable and the display text
         function updateValue() {
           topBarCenterText = document.getElementById('CenterText').value;
           layout_cols = document.getElementById('layout_cols').value;
@@ -943,15 +909,13 @@ var tileDelay = ${JSON.stringify(settings.aImages.map(item => item[2]), null, 2)
           document.getElementById('layout_cols').textContent = layout_cols;
           document.getElementById('layout_rows').textContent = layout_rows;
         }
-        // Add an onblur event listener to the input field
         document.getElementById('CenterText').onblur = updateValue;
         document.getElementById('layout_cols').onblur = updateValue;
         document.getElementById('layout_rows').onblur = updateValue;
        
-      }); // End of DOMContentLoaded here
+      }); 
       
       function minimalConfiguration() {
-        // Default settings
         window.disableSetup = false;
         window.curSettingsSrc = "None";
         window.topBarCenterText = "Use 'Setup' to configure your Ham Radio Dashboard";
@@ -989,7 +953,6 @@ var tileDelay = ${JSON.stringify(settings.aImages.map(item => item[2]), null, 2)
           });
         } else {
           console.log("File does not exist");
-          // Try to recover
           minimalConfiguration();
           return Promise.reject("File does not exist");
         }
@@ -998,8 +961,6 @@ var tileDelay = ${JSON.stringify(settings.aImages.map(item => item[2]), null, 2)
       async function loadConfig() {
         const isFileProtocol = window.location.protocol === 'file:';
             if (isFileProtocol) {
-              // console.warn('Running from file system, some features may not work due to browser security restrictions.');
-              // Directly load the script without checking if it exists
               const script = document.createElement('script');
               script.src = 'config.js';
               script.onload = () => {
@@ -1009,7 +970,6 @@ var tileDelay = ${JSON.stringify(settings.aImages.map(item => item[2]), null, 2)
               };
               script.onerror = (error) => {
                 console.error('Failed to load config.js:', error);
-                // Try to recover
                 minimalConfiguration();
               };
               document.head.appendChild(script);
@@ -1023,14 +983,10 @@ var tileDelay = ${JSON.stringify(settings.aImages.map(item => item[2]), null, 2)
 
       async function main() {
         try {
-          // Check if settings exist in localStorage
           const settings = localStorage.getItem('hamdash_config');
           if (settings) {
-            // console.log('Settings found in localStorage:', settings);
             console.log('Settings found in localStorage');
-            // Parse the settings JSON string
             const parsedSettings = JSON.parse(settings);
-            // Copy settings to separate variables
             window.settingsSource = parsedSettings.settingsSource;
             if (settingsSource === 'localStorage') {
               console.log('Loading settings from localStorage');
@@ -1041,35 +997,27 @@ var tileDelay = ${JSON.stringify(settings.aImages.map(item => item[2]), null, 2)
               window.aURL = parsedSettings.aURL;
               window.aRSS = parsedSettings.aRSS;
               window.aIMG = parsedSettings.aImages;
-              // New array to hold the last elements for tileDelay
               window.tileDelay = [];
-              // Iterate over the original array of arrays to extract tileDelay
               aIMG.forEach(subArray => {
-                // Remove the last element from the sub-array and add it to the new array
                 const lastElement = subArray.pop();
                 tileDelay.push(lastElement);
               });
 
-              // Iterate over the original array of arrays to flatten the sub-arrays
               aIMG.forEach(subArray => {
-                // Replace the second element with its contents separated by commas and surrounded by quotes
                 if (Array.isArray(subArray[1])) {
                   subArray[1] = subArray[1].map(element => `${element}`).join(',');
                 }
                 const newElements = subArray[1].split(',');
-                // Replace the second element with the new elements
                 subArray.splice(1, 1, ...newElements);
               });
               window.curSettingsSrc = "Browser Local Storage";
               start();
             } else {
               console.log('Settings found in localStorage but loading from config.js file');
-              // Load the settings from config.js file
               loadConfig();
             }
           } else {
             console.log('No settings found in localStorage');
-            // Load the settings from config.js file
             loadConfig();
           }
         } catch (error) {
@@ -1123,7 +1071,6 @@ var tileDelay = ${JSON.stringify(settings.aImages.map(item => item[2]), null, 2)
 
       function setRot() {
         if (typeof tileDelay === "undefined") {
-          // If no individual tile rotation is defined then default is 30s or 30000ms
           aInt[0] = setInterval(() => slide(), 30000);
         } else {
           tileDelay.forEach(function (tile, i) {
@@ -1144,7 +1091,6 @@ var tileDelay = ${JSON.stringify(settings.aImages.map(item => item[2]), null, 2)
         }
       }
 
-      // This function shows the embedded websites
       function MenuOpt(num) {
         window.stop();
         rotStop();
@@ -1154,7 +1100,6 @@ var tileDelay = ${JSON.stringify(settings.aImages.map(item => item[2]), null, 2)
         } else if (aURL[num][1].toLowerCase() == "help") {
           alert(help);
         } else if (aURL[num][1].toLowerCase() == "setup") {
-          // Configure visualization
           document.getElementById("FullScreen").style.display = "none";
           document.getElementById("fixedSection").style.display = "block";
           document.getElementById("settingsPage").style.display = "block";
@@ -1191,7 +1136,6 @@ var tileDelay = ${JSON.stringify(settings.aImages.map(item => item[2]), null, 2)
                   return [first, rest, tileDelay[index]];
                 });
           window.settings.aRSS = aRSS;          
-          // Update the visualization on the Setup page
           updateMenuTable();
           updateFeedTable();
           adjustDashboardItems();
@@ -1229,18 +1173,15 @@ var tileDelay = ${JSON.stringify(settings.aImages.map(item => item[2]), null, 2)
         document.getElementById("overlay").style.display = "none";
       }
 
-      // This function shows the larger images when double click to enlarge
       function larger(event) {
         var targetElement = event.target || event.srcElement;
         if (largeShow == 1) {
-          // Start refreshes
           setRot();
           //
           largeShow = 0;
           document.getElementById("imgZoom").style.display = "none";
           document.getElementById("imgZoom").style.zIndex = -2;
         } else {
-          // Stop refreshes
           window.stop();
           rotStop();
           //
@@ -1255,13 +1196,10 @@ var tileDelay = ${JSON.stringify(settings.aImages.map(item => item[2]), null, 2)
         }
       }
 
-      // Image cache prevention
-      // Check if the image URL already include parameters, then avoid the random timestamp
       function getImgURL(url) {
         return url.includes("?") ? url : url + "?_=" + Date.now();
       }
 
-      // Manually rotate images
       function rotate(event) {
         event.preventDefault();
         var targetElement = event.target || event.srcElement;
@@ -1276,11 +1214,8 @@ var tileDelay = ${JSON.stringify(settings.aImages.map(item => item[2]), null, 2)
             aIdx[i] = 1;
           }
           if (isVideo(aIMG[i][aIdx[i]])) {
-            // Is video, event is not attached to videos for now, do nothing
           } else if (isFrame(aIMG[i][aIdx[i]])) {
-            // Is iFrame, event is not attached to iFrames for now, do nothing
           } else {
-            // Is image
             document.getElementById(targetElement.id).src = getImgURL(
               aIMG[i][aIdx[i]]
             );
@@ -1295,8 +1230,6 @@ var tileDelay = ${JSON.stringify(settings.aImages.map(item => item[2]), null, 2)
             aIdx[i] = 1;
           }
         }
-        // console.log("aIdx", aIdx);
-        // console.log("i", i, "aIdx[i]", aIdx[i], "aIMG[i][aIdx[i]]", aIMG[i][aIdx[i]]);
         vid = document.getElementById("Video" + i);
         img = document.getElementById("Image" + i);
         ifr = document.getElementById("iFrame" + i);
@@ -1427,16 +1360,13 @@ var tileDelay = ${JSON.stringify(settings.aImages.map(item => item[2]), null, 2)
               });
           };
         
-          // Fetch the feed immediately
           fetchFeed();
         
-          // Set up periodic refresh based on the interval (in minutes)
           setInterval(fetchFeed, interval * 60 * 1000);
         });
       }
 
       function start() {
-        // Configurable grid layout logic. Defaults to standard 4 columns by 3 rows if values are missing in config.js file.
         var layout_cols = typeof window.layout_cols === "undefined" ? 4 : window.layout_cols;
         var layout_rows = typeof window.layout_rows === "undefined" ? 3 : window.layout_rows;
         var layout_grid = "auto ".repeat(layout_cols);
@@ -1458,7 +1388,6 @@ var tileDelay = ${JSON.stringify(settings.aImages.map(item => item[2]), null, 2)
 
         document.getElementById("currentSettingsSource").innerHTML = curSettingsSrc;
 
-        // Default variables initialization
         window.largeShow = 0;
         window.aIdx = [];
         window.aInt = [];
@@ -1475,11 +1404,9 @@ var tileDelay = ${JSON.stringify(settings.aImages.map(item => item[2]), null, 2)
           alert(msg);
         }
 
-        // Get the parent div for Menu container
         var parentDiv = document.getElementById("myMenu");
         var parentDivR = document.getElementById("myMenuR");
 
-        // Preppend the default options to the menu
         aURL.unshift(
           ["add10d", "BACK", "", "1", "L"],
           ["add10d", "BACK", "", "1", "R"],
@@ -1487,7 +1414,6 @@ var tileDelay = ${JSON.stringify(settings.aImages.map(item => item[2]), null, 2)
           ["0dd1a7", "Help", "#", "1", "L"]
         );
 
-        // Append the Setup and Sources option to the right side menu
         if (typeof disableSetup === "undefined" || !disableSetup) {
           aURL.push(
             ["ff9100", "Setup", "#", "1", "R"]
@@ -1498,7 +1424,6 @@ var tileDelay = ${JSON.stringify(settings.aImages.map(item => item[2]), null, 2)
           ["0dd1a7", "Sources", "#", "1", "R"]
         );
 
-        // Append the Update option to the right side menu if needed
         if (bUpdate) {
           aURL.push(["FF0000", "Update", "#", "1", "R"]);
         }
