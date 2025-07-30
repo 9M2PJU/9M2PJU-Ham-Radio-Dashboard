@@ -856,7 +856,10 @@ db   8D Y8b  d8 88 `88.   .88.   88         88    db   8D
                       typeof subItem === "string" &&
                       (subItem.includes("BACK") ||
                         subItem.includes("Back") ||
-                        subItem.includes("Refresh"))
+                        subItem.includes("Refresh") ||
+                        subItem.includes("Sources") ||
+                        subItem.includes("Update") ||
+                        subItem.includes("Help"))
                   )
               );
 
@@ -1125,7 +1128,7 @@ var tileDelay = ${JSON.stringify(settings.aImages.map(item => item[2]), null, 2)
       var help = "Double click on an image to expand to full screen.\n";
       help += "Double click again to close full screen view.\n";
       help += "Right click on an image to display the next one.\n";
-      help += "Images rotates every 60 seconds automatically by default.\n";
+      help += "Images rotates every 30 seconds automatically by default.\n";
 
       const currentVersion = "v2025.04.02";
 
@@ -1242,7 +1245,11 @@ var tileDelay = ${JSON.stringify(settings.aImages.map(item => item[2]), null, 2)
                       typeof subItem === "string" &&
                       (subItem.includes("BACK") ||
                         subItem.includes("Back") ||
-                        subItem.includes("Refresh"))
+                        subItem.includes("Refresh") ||
+                        subItem.includes("Setup") ||
+                        subItem.includes("Sources") ||
+                        subItem.includes("Update") ||
+                        subItem.includes("Help"))
                   )
               );
           window.settings.aURL = filteredAURL;
@@ -1263,9 +1270,8 @@ var tileDelay = ${JSON.stringify(settings.aImages.map(item => item[2]), null, 2)
           document.getElementById("array3").innerHTML =
             "<br>" + formatArray(aRSS) + "<br><br>";            
           document.getElementById("array4").innerHTML =
-          document.getElementById("array4").innerHTML =
            `<br>9M2PJU Ham Radio Dashboard<br>
-            <br><br><br>`;
+            <br>Dashboard codebase version: ${currentVersion}<br><br>`;
           document.getElementById("overlay").style.display = "block";
         } else if (aURL[num][1].toLowerCase() == "update") {
           window
@@ -1559,7 +1565,12 @@ var tileDelay = ${JSON.stringify(settings.aImages.map(item => item[2]), null, 2)
         if (typeof disableSetup === "undefined" || !disableSetup) {
           aURL.push(
             ["ff9100", "Setup", "#", "1", "R"]
-          );
+          )
+        }
+
+        aURL.push(
+          ["0dd1a7", "Sources", "#", "1", "R"]
+        );
 
         // Append the Update option to the right side menu if needed
         if (bUpdate) {
