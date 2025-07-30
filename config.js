@@ -110,13 +110,14 @@ var aIMG = [
   ],
   [
     "LIVE DX MAP",
-    "iframe|https://dxlook.com/?view=summary"
+    "iframe|https://dxlook.com/?view=summary",
     "iframe|https://dxcluster.ha8tks.hu/map/"
 
   ],
   [
     "GREY LINE",
-    "https://www.timeanddate.com/scripts/sunmap.php?iso=now"
+    "https://www.timeanddate.com/scripts/sunmap.php?iso=now",
+    "https://dx.qsl.net/images/greyline-20235.jpg" 
   ],
   [
     "NOAA D-RAP",
