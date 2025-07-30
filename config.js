@@ -81,12 +81,6 @@ var aURL = [
   ]
 ];
 
-// Dashboard items
-// Structure is Title, Image Source URL
-// [Title, Image Source URL],
-// the comma at the end is important!
-// You can't add more items because there are only 12 placeholders on the dashboard
-// but you can replace the titles and the images with anything you want.
 var aIMG = [
   [
     "MALAYSIA RADAR",
@@ -110,8 +104,7 @@ var aIMG = [
   ],
   [
     "LIVE DX MAP",
-    "iframe|https://dxlook.com/?view=summary",
-    "iframe|https://dxcluster.ha8tks.hu/map/"
+    "iframe|https://dxlook.com/?view=summary"
 
   ],
   [
