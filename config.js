@@ -11,8 +11,8 @@ var layout_rows = 3;
 var aURL = [
   [
     "#2196f3",
-    "CLUBLOG",
-    "https://clublog.org/livestream/9M2PJU",
+    "RBN",
+    "https://reversebeacon.net/main.php?zoom=24.02,48.53,1.90&rows=10&max_age=10,hours&hide=distance_km",
     1,
     "undefined"
   ],
