@@ -26,7 +26,7 @@ var aURL = [
   [
     "#2196f3",
     "DX CLUSTER",
-    "https://cluster.f5len.org",
+    "https://dx.hamradio.my",
     1,
     "undefined"
   ],
