@@ -26,7 +26,7 @@ var aURL = [
   [
     "#2196f3",
     "DX CLUSTER",
-    "https://cluster.f5len.org",
+    "https://web.cluster.iz3mez.it",
     1,
     "undefined"
   ],
