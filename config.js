@@ -113,7 +113,7 @@ var aIMG = [
   ],
   [
     "NOAA D-RAP",
-    "https://services.swpc.noaa.gov/images/animations/d-rap/global/d-rap/latest.png"
+    "https://services.swpc.noaa.gov/images/animations/d-rap/global/latest.png"
   ],
   [
     "IONOSPHERIC",
