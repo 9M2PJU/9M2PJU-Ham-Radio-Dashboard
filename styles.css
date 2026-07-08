@@ -547,6 +547,14 @@
         .dashboard {
           grid-template-columns: auto auto !important;
         }
+        /* Allow scrolling on tablet too (2 cols × 6 rows may exceed viewport) */
+        .default-frame {
+          position: relative !important;
+          height: auto !important;
+          overflow-y: auto !important;
+          overflow-x: hidden !important;
+          bottom: auto !important;
+        }
         .menu-toggle { display: block; }
         /* On touch devices, disable hover-reveal and rely on toggle buttons */
         #myMenu, #myMenuR { transition: none; }
@@ -561,17 +569,42 @@
       /* Phone: single column, larger touch targets */
       @media (max-width: 640px) {
         :root {
-          --main-width: 99vw !important;
+          --main-width: 100vw !important;
           --main-height: 30vh !important;
+        }
+        /* Allow scrolling: the fixed+overflow:hidden container clips tiles on mobile */
+        .default-frame {
+          position: relative !important;
+          height: auto !important;
+          overflow-y: auto !important;
+          overflow-x: hidden !important;
+          bottom: auto !important;
         }
         .dashboard {
           grid-template-columns: auto !important;
+          width: 100% !important;
+        }
+        .image-container, .iframe-tile {
+          width: 100% !important;
         }
         .top-bar {
           grid-template-columns: 1fr 1fr;
+          padding: 4px !important;
         }
-        .top-bar .child { font-size: 12px; }
-        #topBarCenter { grid-column: 1 / -1; order: -1; }
+        .top-bar .child {
+          font-size: 11px !important;
+          padding: 2px 4px !important;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        #topBarCenter {
+          grid-column: 1 / -1;
+          order: -1;
+          text-align: center !important;
+        }
+        #topBarLeft { text-align: left !important; }
+        #topBarRight { text-align: right !important; }
         .image-title { font-size: 12px; }
         .menu-toggle { width: 30px; height: 40px; font-size: 18px; }
         .settings-Page { width: 100% !important; margin-left: 0 !important; }
@@ -591,6 +624,17 @@
         }
         .overlay { padding: 10px; }
         .overlay-content { padding: 12px; max-height: 90vh; }
+        /* Solar widget: allow text to shrink and wrap on mobile */
+        .solar-widget {
+          font-size: 11px !important;
+          padding: 3px 8px !important;
+        }
+        .solar-detail {
+          min-width: 0;
+          flex: 1 1 100%;
+          white-space: normal !important;
+          line-height: 1.4;
+        }
       }
 
       /* Respect desktop hover behavior only on fine pointers */

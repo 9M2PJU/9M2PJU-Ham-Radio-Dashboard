@@ -1035,6 +1035,13 @@
       function start() {
         var layout_cols = typeof window.layout_cols === "undefined" ? 4 : window.layout_cols;
         var layout_rows = typeof window.layout_rows === "undefined" ? 3 : window.layout_rows;
+        // On small screens, force fewer columns for usability
+        var screenWidth = window.innerWidth;
+        if (screenWidth <= 640) {
+          layout_cols = 1;
+        } else if (screenWidth <= 1024) {
+          layout_cols = Math.min(layout_cols, 2);
+        }
         var layout_grid = "auto ".repeat(layout_cols);
         var layout_width = 99.6 / layout_cols + "vw";
         var layout_height = 93 / layout_rows + "vh";
