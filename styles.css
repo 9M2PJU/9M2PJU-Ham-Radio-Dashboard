@@ -128,6 +128,37 @@ body, html {
   display: none;
 }
 
+/* ===== Click Overlay (for video/iframe tiles) ===== */
+.click-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  z-index: 1;
+  cursor: pointer;
+}
+
+/* ===== Menu Link Type Icons ===== */
+.menu-link.menu-core::before {
+  content: '\2605';
+  margin-right: 2px;
+  opacity: 0.8;
+}
+.menu-link.menu-config::before {
+  content: '\2699';
+  margin-right: 2px;
+  opacity: 0.8;
+  display: inline-block;
+  transform: scale(0.8);
+  transform-origin: center;
+}
+.menu-link.menu-user::before {
+  content: '';
+  margin-right: 0;
+}
+
 /* ===== Top Bar ===== */
 .top-bar {
   display: grid;

@@ -653,7 +653,35 @@
       }
 
       function isFrame(src) {
-        return src.includes("iframe|");
+        return src.includes("iframe|") || src.includes("iframedark|");
+      }
+
+      function isDarkFrame(src) {
+        return src.includes("iframedark|");
+      }
+
+      function isDark(src) {
+        return src.includes("dark|");
+      }
+
+      function isInvert(src) {
+        return src.includes("invert|");
+      }
+
+      // Replace {{YYYYMMDD}} and {{DATE_ISO}} placeholders in config values
+      function replaceDatePlaceholders(obj) {
+        const now = new Date();
+        const YYYYMMDD = now.toISOString().slice(0, 10).replace(/-/g, '');
+        const DATE_ISO = now.toISOString().slice(0, 10);
+        if (typeof obj === 'string') {
+          return obj.replace(/{{YYYYMMDD}}/g, YYYYMMDD).replace(/{{DATE_ISO}}/g, DATE_ISO);
+        } else if (Array.isArray(obj)) {
+          return obj.map(replaceDatePlaceholders);
+        } else if (typeof obj === 'object' && obj !== null) {
+          Object.keys(obj).forEach(key => { obj[key] = replaceDatePlaceholders(obj[key]); });
+          return obj;
+        }
+        return obj;
       }
 
       function oldformatArray(arr) {
@@ -748,7 +776,14 @@
         } else {
           document.getElementById("iFrameContainer").style.zIndex = 1;
           document.getElementById("FullScreen").style.display = "block";
-          document.getElementById("FullScreen").src = aURL[num][2];
+          var src = aURL[num][2];
+          if (isDark(src)) {
+            document.getElementById("FullScreen").style.filter = "invert(1) hue-rotate(180deg)";
+            src = src.replace("dark|", "");
+          } else {
+            document.getElementById("FullScreen").style.filter = "none";
+          }
+          document.getElementById("FullScreen").src = src;
           document.getElementById("FullScreen").style.transform = "scale(" + aURL[num][3] + ")";
         }
       }
@@ -772,13 +807,28 @@
           rotStop();
           //
           largeShow = 1;
-          largeIdx = +targetElement.id.match(/\d+/)[0];
+          // Extract index robustly (handles ClickOverlayN or ImageN)
+          const idMatch = targetElement.id && targetElement.id.match(/\d+/);
+          if (!idMatch) {
+            console.warn("Could not find index for zoom", targetElement.id);
+            return;
+          }
+          largeIdx = +idMatch[0];
           document.getElementById("imgZoom").style.display = "block";
           document.getElementById("imgZoom").style.zIndex = 3;
-          document.getElementById("ImageLarge").src =
-            targetElement.style.backgroundImage
-              .replace(/^url\(["']?/, "")
-              .replace(/["']?\)$/, "");
+          // Find the source from the actual tile image
+          const sourceImg = document.getElementById("Image" + largeIdx);
+          if (sourceImg) {
+            // If wheelzoom is active, sourceImg.src is a transparent placeholder.
+            // The real image is in style.backgroundImage
+            let realSrc = sourceImg.src;
+            if (sourceImg.style.backgroundImage) {
+              realSrc = sourceImg.style.backgroundImage
+                .replace(/^url\(["']?/, "")
+                .replace(/["']?\)$/, "");
+            }
+            document.getElementById("ImageLarge").src = realSrc;
+          }
           const closeBtn = document.getElementById("imgZoomClose");
           if (closeBtn) closeBtn.classList.add("show");
         }
@@ -802,21 +852,12 @@
         if (largeShow == 1) {
           i = largeIdx;
         } else {
-          i = +targetElement.id.match(/\d+/)[0];
+          // Extract index robustly (handles ClickOverlayN or ImageN)
+          const idMatch = targetElement.id && targetElement.id.match(/\d+/);
+          if (!idMatch) return;
+          i = +idMatch[0];
         }
-        if (aIMG[i].length > 2) {
-          ++aIdx[i];
-          if (aIdx[i] > aIMG[i].length - 1) {
-            aIdx[i] = 1;
-          }
-          if (isVideo(aIMG[i][aIdx[i]])) {
-          } else if (isFrame(aIMG[i][aIdx[i]])) {
-          } else {
-            document.getElementById(targetElement.id).src = getImgURL(
-              aIMG[i][aIdx[i]]
-            );
-          }
-        }
+        imgRot(i);
       }
 
       function imgRot(i) {
@@ -831,6 +872,23 @@
         if (errEl) errEl.remove();
         const badge = document.getElementById(`Badge${i}`);
         if (badge) badge.classList.remove("loaded", "error");
+
+        // Rotating title logic: if first element is an array, update title to match
+        const titleDiv = document.getElementById("Title" + i);
+        if (titleDiv && Array.isArray(aIMG[i][0])) {
+          titleDiv.textContent = aIMG[i][0][aIdx[i] - 1] || "";
+        }
+
+        // Click overlay visibility: show for video/iframe, hide for images
+        const overlay = document.getElementById("ClickOverlay" + i);
+        if (overlay) {
+          if (isVideo(aIMG[i][aIdx[i]]) || isFrame(aIMG[i][aIdx[i]])) {
+            overlay.style.display = "block";
+          } else {
+            overlay.style.display = "none";
+          }
+        }
+
         vid = document.getElementById("Video" + i);
         img = document.getElementById("Image" + i);
         ifr = document.getElementById("iFrame" + i);
@@ -842,18 +900,35 @@
           img.classList.add("hidden");
           ifr.classList.add("hidden");
         } else if (isFrame(aIMG[i][aIdx[i]])) {
-          // Is iFrame
-          newSrc = aIMG[i][aIdx[i]].split("|");
+          // Is iFrame (supports iframedark| for dark-inverted iframes)
+          var src = aIMG[i][aIdx[i]];
+          if (isDarkFrame(src)) {
+            newSrc = src.split("iframedark|");
+            ifr.style.filter = "invert(1) hue-rotate(180deg)";
+          } else {
+            newSrc = src.split("iframe|");
+            ifr.style.filter = "none";
+          }
           ifr.classList.remove("hidden");
-          ifr.src = newSrc[1];
-          if (newSrc[2]) ifr.style.transform = "scale(" + newSrc[2] + ")";
+          // Handle optional scale parameter: prefix|URL|SCALE
+          var content = newSrc[1];
+          var contentParts = content.split("|");
+          ifr.src = contentParts[0];
+          if (contentParts[1]) ifr.style.transform = "scale(" + contentParts[1] + ")";
           ifr.style.zIndex = 0;
           // Hide others
           vid.classList.add("hidden");
           img.classList.add("hidden");
         } else {
-          // Is image
-          img.src = getImgURL(aIMG[i][aIdx[i]]);
+          // Is image (supports invert| for dark-inverted images)
+          var src = aIMG[i][aIdx[i]];
+          if (isInvert(src)) {
+            img.style.filter = "invert(1)";
+            src = src.replace("invert|", "");
+          } else {
+            img.style.filter = "none";
+          }
+          img.src = getImgURL(src);
           img.classList.remove("hidden");
           // Hide others
           vid.classList.add("hidden");
@@ -867,7 +942,24 @@
           const nextSrc = aIMG[i][nextIdx];
           if (nextSrc && !isVideo(nextSrc) && !isFrame(nextSrc)) {
             const preloader = new Image();
-            preloader.src = getImgURL(nextSrc);
+            let preloadUrl = nextSrc;
+            if (isInvert(preloadUrl)) preloadUrl = preloadUrl.replace("invert|", "");
+            preloader.src = getImgURL(preloadUrl);
+          }
+        }
+        // Full-screen rotation support: update zoomed image if this tile is zoomed
+        if (largeShow == 1 && i == largeIdx) {
+          const largeImg = document.getElementById("ImageLarge");
+          if (largeImg) {
+            const isImg = !isVideo(aIMG[i][aIdx[i]]) && !isFrame(aIMG[i][aIdx[i]]);
+            if (isImg) {
+              let zoomSrc = aIMG[i][aIdx[i]];
+              if (isInvert(zoomSrc)) zoomSrc = zoomSrc.replace("invert|", "");
+              largeImg.src = getImgURL(zoomSrc);
+            } else {
+              // Rotating into non-image content: close zoom view
+              larger({ target: document.getElementById("Image" + i) });
+            }
           }
         }
       }
@@ -905,30 +997,43 @@
         }
       }
 
+      // Store interval IDs and active fetches to prevent duplicates
+      let rssIntervals = [];
+      let activeFetches = new Map();
+
       // Function to fetch and display the RSS feed
-      function fetchAndDisplayRss() {            
+      function fetchAndDisplayRss() {
+        // Clear any existing intervals first
+        rssIntervals.forEach(clearInterval);
+        rssIntervals = [];
+
         const proxyList = [
           (url) => "https://corsproxy.io/?url=" + encodeURIComponent(url),
           (url) => "https://api.allorigins.win/raw?url=" + encodeURIComponent(url),
           (url) => "https://api.rss2json.com/v1/api.json?rss_url=" + encodeURIComponent(url),
         ];
         const rssTickerContent = document.getElementById("rss-ticker-content");
-            
+
         // Array to store the content of each feed
         const feedContents = new Array(aRSS.length).fill("");
-            
+
         console.log("Fetching RSS feeds...");
 
         function fetchWithFallback(url, attempt = 0) {
           if (attempt >= proxyList.length) {
             return Promise.reject(new Error("All proxies failed for " + url));
           }
-          return fetch(proxyList[attempt](url))
+          // Use AbortController with 10s timeout per attempt
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 10000);
+          return fetch(proxyList[attempt](url), { signal: controller.signal, cache: 'no-cache' })
             .then((response) => {
+              clearTimeout(timeoutId);
               if (!response.ok) throw new Error("HTTP " + response.status);
               return response.text();
             })
             .catch((err) => {
+              clearTimeout(timeoutId);
               console.warn(`Proxy ${attempt} failed for ${url}:`, err.message);
               return fetchWithFallback(url, attempt + 1);
             });
@@ -936,45 +1041,47 @@
 
         aRSS.forEach(([rssUrl, interval], index) => {
           const fetchFeed = () => {
+            // Prevent duplicate concurrent fetches for the same URL
+            if (activeFetches.has(rssUrl)) {
+              console.log(`Fetch already in progress for ${rssUrl}, skipping...`);
+              return Promise.resolve();
+            }
             console.log(`Fetching feed: ${rssUrl}`);
-            fetchWithFallback(rssUrl)
+            const fetchPromise = fetchWithFallback(rssUrl)
               .then((data) => {
                 const parser = new DOMParser();
                 const xmlDoc = parser.parseFromString(data, "text/xml");
-              
+
                 // Automatically detect whether the feed uses "item" or "entry" tags
                 let itmTag = "item"; // Default to RSS
                 if (xmlDoc.querySelector("entry")) {
                   itmTag = "entry"; // Switch to Atom if "entry" is found
                 }
-              
+
                 const feedTitle = xmlDoc.querySelector("channel > title, feed > title")?.textContent || "Unknown Feed";
-                const lastUpdated = xmlDoc.querySelector("channel > lastBuildDate, feed > updated")?.textContent || "Unknown Time";
-              
+                const lastUpdated = xmlDoc.querySelector("channel > lastBuildDate, feed > updated")?.textContent ||
+                                    xmlDoc.querySelector("channel > pubDate, feed > published")?.textContent || "Unknown Time";
+
                 const items = xmlDoc.querySelectorAll(itmTag);
                 console.log(`Found ${items.length} items in feed: ${rssUrl}`);
-              
-                let feedText = `<span style="font-size: 0.9em; color: #aaa;"> ${feedTitle} - Last Updated: ${lastUpdated} </span> - `;
-              
+
+                let feedText = `<span style="font-size: 0.9em; color: var(--text-muted);"> ${feedTitle} - Last Updated: ${lastUpdated} </span> - `;
+
                 items.forEach((item) => {
                   const title = item.querySelector("title").textContent;
-                
                   // Handle both <link href="..."> and <link>...</link>
                   const linkElement = item.querySelector("link");
                   let link = "";
                   if (linkElement) {
                     if (linkElement.getAttribute("href")) {
-                      // If <link href="...">
                       link = linkElement.getAttribute("href");
                     } else {
-                      // If <link>...</link>
                       link = linkElement.textContent;
                     }
                   }
-                
                   feedText += `<a href="${link}" target="_blank" rel="noopener" style="margin-right: 50px;">${title}</a>`;
                 });
-              
+
                 // Update the content for this feed in the array
                 feedContents[index] = feedText;
 
@@ -985,19 +1092,38 @@
                 updateTickerSpeed();
               })
               .catch((error) => {
-                console.error(`Error fetching RSS feed from ${rssUrl}:`, error);
-                feedContents[index] = `<span style="color:#e53935;"> [Feed unavailable: ${rssUrl}] </span>`;
+                if (!error.message.includes('aborted') && !error.message.includes('Failed to fetch')) {
+                  console.error(`Error fetching RSS feed from ${rssUrl}:`, error);
+                }
+                const domain = rssUrl.split('/')[2] || rssUrl;
+                feedContents[index] = `<span style="color: var(--danger); margin-right: 50px;"> ${domain} unavailable </span>`;
                 rssTickerContent.innerHTML = feedContents.join("");
+              })
+              .finally(() => {
+                activeFetches.delete(rssUrl);
               });
+
+            activeFetches.set(rssUrl, fetchPromise);
+            return fetchPromise;
           };
-        
+
           fetchFeed();
-        
-          rssTimers.push(setInterval(fetchFeed, interval * 60 * 1000));
+
+          if (interval && interval > 0) {
+            const intervalId = setInterval(() => {
+              fetchFeed().catch(err => console.error(`Failed to refresh feed ${rssUrl}:`, err));
+            }, interval * 60 * 1000);
+            rssIntervals.push(intervalId);
+          }
         });
       }
 
       function start() {
+        // Replace date placeholders in all config arrays
+        aURL = replaceDatePlaceholders(aURL);
+        aIMG = replaceDatePlaceholders(aIMG);
+        aRSS = replaceDatePlaceholders(aRSS);
+
         var layout_cols = typeof window.layout_cols === "undefined" ? 4 : window.layout_cols;
         var layout_rows = typeof window.layout_rows === "undefined" ? 3 : window.layout_rows;
         // On small screens, force fewer columns for usability
@@ -1067,13 +1193,30 @@
           if (color === "000000" || color === "000") {
             color = "30363d"; // visible dark gray
           }
+          // Determine menu item type for icon prefix
+          const title = String(innerArray[1] || "").trim();
+          const link = String(innerArray[2] || "").trim();
+          const titleLower = title.toLowerCase();
+          const linkLower = link.toLowerCase();
+          const coreNames = ["back", "refresh", "help", "setup"];
+          let menuType = "user";
+          let icon = "";
+          if (coreNames.includes(titleLower)) {
+            menuType = "core";
+            icon = "\u2605 "; // ★
+          } else if (titleLower.endsWith(".js") || titleLower.endsWith(".json") ||
+                     linkLower.endsWith(".js") || linkLower.endsWith(".json")) {
+            menuType = "config";
+            icon = "\u2699 "; // ⚙
+          }
           // Build the link safely (textContent prevents HTML injection from config)
-          var link = document.createElement("a");
-          link.href = "#";
-          link.style.backgroundColor = "#" + color;
-          link.textContent = innerArray[1];
-          link.onclick = (function(idx) { return function() { MenuOpt(idx); }; })(index);
-          newDiv.appendChild(link);
+          var linkEl = document.createElement("a");
+          linkEl.href = "#";
+          linkEl.className = "menu-link menu-" + menuType;
+          linkEl.style.backgroundColor = "#" + color;
+          linkEl.textContent = icon + title;
+          linkEl.onclick = (function(idx) { return function() { MenuOpt(idx); }; })(index);
+          newDiv.appendChild(linkEl);
           if (innerArray[4] == "R") {
             // Set some properties for the new div
             newDiv.id = "mySidenavR";
@@ -1157,6 +1300,24 @@
           // any in-site links; allow-forms for interactive tools. Forms/popups
           // can be dropped per-source if a site misbehaves.
           newFrame.setAttribute("sandbox", "allow-scripts allow-same-origin allow-popups allow-forms");
+
+          // Click overlay for video/iframe tiles: captures right-click for rotation
+          // and double-click to "unlock" interaction with embedded content
+          var clickOverlay = document.createElement("div");
+          clickOverlay.className = "click-overlay";
+          clickOverlay.id = `ClickOverlay${index}`;
+          clickOverlay.oncontextmenu = rotate;
+          clickOverlay.ondblclick = function (event) {
+            const currentItem = aIMG[index][aIdx[index]];
+            if (isVideo(currentItem) || isFrame(currentItem)) {
+              // Unlock tile for direct interaction
+              this.style.display = "none";
+            } else {
+              // Image: trigger standard zoom
+              larger(event);
+            }
+          };
+
           var newSrc = " ";
 
           if (isVideo(innerArray[1])) {
@@ -1166,12 +1327,22 @@
             source.type = getVideoType(innerArray[1]);
             video.appendChild(source);
             hideSpinner();
+            clickOverlay.style.display = "block";
           } else if (isFrame(innerArray[1])) {
-            // Is iFrame
+            // Is iFrame (supports iframedark| for dark-inverted iframes)
             newFrame.classList.remove("hidden");
-            newSrc = innerArray[1].split("|");
-            newFrame.src = newSrc[1];
-            if (newSrc[2]) newFrame.style.transform = "scale(" + newSrc[2] + ")";
+            var src = innerArray[1];
+            if (isDarkFrame(src)) {
+              newSrc = src.split("iframedark|");
+              newFrame.style.filter = "invert(1) hue-rotate(180deg)";
+            } else {
+              newSrc = src.split("iframe|");
+              newFrame.style.filter = "none";
+            }
+            var content = newSrc[1];
+            var contentParts = content.split("|");
+            newFrame.src = contentParts[0];
+            if (contentParts[1]) newFrame.style.transform = "scale(" + contentParts[1] + ")";
             newFrame.style.zIndex = 0;
             newFrame.addEventListener("load", hideSpinner);
             // Iframes that fail due to X-Frame-Options/CSP don't fire error
@@ -1182,10 +1353,18 @@
               }
             }, 12000);
             newFrame.addEventListener("load", () => clearTimeout(frameTimeout));
+            clickOverlay.style.display = "block";
           } else {
-            // Is an image
+            // Is an image (supports invert| for dark-inverted images)
             newImg.classList.remove("hidden");
-            newImg.src = getImgURL(innerArray[1]);
+            var src = innerArray[1];
+            if (isInvert(src)) {
+              newImg.style.filter = "invert(1)";
+              src = src.replace("invert|", "");
+            } else {
+              newImg.style.filter = "none";
+            }
+            newImg.src = getImgURL(src);
             newImg.onerror = function () {
               text = "Failed to load image";
               console.log(text, this.src);
@@ -1198,6 +1377,7 @@
                 showTileError(text);
               }
             };
+            clickOverlay.style.display = "none";
           }
 
           // append newDivs boxNN
@@ -1206,13 +1386,22 @@
           newDiv.appendChild(video);
           newDiv.appendChild(newImg);
           newDiv.appendChild(newFrame);
+          newDiv.appendChild(clickOverlay);
           parentDiv.appendChild(newDiv);
 
-          // Create a new div element for img title if not empty
-          if (innerArray[0].length > 0) {
+          // Create a new div element for img title
+          // Supports rotating titles: first element can be an array of titles
+          let initialTitle = "";
+          if (Array.isArray(innerArray[0])) {
+            initialTitle = innerArray[0][0] || "";
+          } else {
+            initialTitle = innerArray[0];
+          }
+          if (initialTitle.length > 0 || Array.isArray(innerArray[0])) {
             var newTtl = document.createElement("div");
             newTtl.className = "image-title";
-            newTtl.innerHTML = innerArray[0];
+            newTtl.id = `Title${index}`;
+            newTtl.textContent = initialTitle;
             newDiv.appendChild(newTtl);
           }
         });
@@ -1421,7 +1610,7 @@
         if (document.hidden) {
           if (topBarTimer) { clearInterval(topBarTimer); topBarTimer = null; }
           if (solarTimer) { clearInterval(solarTimer); solarTimer = null; }
-          rssTimers.forEach(clearInterval);
+          rssIntervals.forEach(clearInterval);
         } else {
           if (!topBarTimer) { topBarTimer = setInterval(updateTopBar, 1000); updateTopBar(); }
           if (!solarTimer) { fetchSolarConditions(); solarTimer = setInterval(fetchSolarConditions, 5 * 60 * 1000); }
