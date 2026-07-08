@@ -1135,7 +1135,10 @@
         }
         var layout_grid = "auto ".repeat(layout_cols);
         var layout_width = 99.6 / layout_cols + "vw";
-        var layout_height = 93 / layout_rows + "vh";
+        // Reserve space for top bar (~48px), RSS ticker (~28px), dashboard
+        // margins (12px), and grid gaps between rows ((rows-1)*6px).
+        var overhead = 88 + (layout_rows - 1) * 6;
+        var layout_height = "calc((100vh - " + overhead + "px) / " + layout_rows + ")";
         var iTiles = layout_cols * layout_rows;
         document.documentElement.style.setProperty(
           "--main-layout",
