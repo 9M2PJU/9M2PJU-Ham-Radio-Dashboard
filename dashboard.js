@@ -1106,6 +1106,10 @@
           // Create a new div element
           var newDiv = document.createElement("div");
           var color = innerArray[0].replace("#", "");
+          // Normalize colors that are too dark to see on the dark theme background
+          if (color === "000000" || color === "000") {
+            color = "30363d"; // visible dark gray
+          }
           // Build the link safely (textContent prevents HTML injection from config)
           var link = document.createElement("a");
           link.href = "#";
