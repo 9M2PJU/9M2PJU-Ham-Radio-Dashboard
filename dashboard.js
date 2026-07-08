@@ -636,26 +636,8 @@
       help += "Images rotate every 60 seconds automatically by default.\n";
       help += "On mobile, use the hamburger buttons to open menus, pinch to zoom fullscreen images.";
 
-      bUpdate = false;
       var rssTimers = [];
       var topBarTimer = null;
-      // Version check is disabled (the original referenced undefined functions
-      // getLatestVersion / isNewVersionAvailable / currentVersion, which threw at
-      // runtime). Re-enable here once a real update endpoint is wired up.
-      const currentVersion = "9M2PJU-1.0";
-      async function checkForUpdates() {
-        try {
-          const resp = await fetch("https://api.github.com/repos/VA3HDL/hamdashboard/releases/latest", { method: "GET" });
-          if (!resp.ok) return;
-          const data = await resp.json();
-          const latest = (data.tag_name || "").replace(/^v/, "");
-          if (latest && latest !== currentVersion) {
-            bUpdate = true;
-          }
-        } catch (e) {
-          /* network blocked or offline - silently skip */
-        }
-      }
 
       const videoExtensions = [".mp4", ".webm", ".ogg", ".ogv"];
 
@@ -744,8 +726,6 @@
                         subItem.includes("Back") ||
                         subItem.includes("Refresh") ||
                         subItem.includes("Setup") ||
-                        subItem.includes("Sources") ||
-                        subItem.includes("Update") ||
                         subItem.includes("Help"))
                   )
               );
@@ -758,21 +738,6 @@
           updateMenuTable();
           updateFeedTable();
           adjustDashboardItems();
-        } else if (aURL[num][1].toLowerCase() == "sources") {
-          document.getElementById("array1").innerHTML =
-            "<br>" + formatArray(aURL) + "<br><br>";
-          document.getElementById("array2").innerHTML =
-            "<br>" + formatArray(aIMG) + "<br><br>";
-          document.getElementById("array3").innerHTML =
-            "<br>" + formatArray(aRSS) + "<br><br>";            
-          document.getElementById("array4").innerHTML =
-           `<br>9M2PJU Ham Radio Dashboard<br>
-            <br>Dashboard codebase version: ${currentVersion}<br><br>`;
-          document.getElementById("overlay").style.display = "block";
-        } else if (aURL[num][1].toLowerCase() == "update") {
-          window
-            .open("https://github.com/VA3HDL/hamdashboard/releases/", "_blank")
-            .focus();
         } else if (aURL[num][1].toLowerCase() == "back"){
           document.getElementById("FullScreen").src = "about:blank";
           document.getElementById("iFrameContainer").style.zIndex = -2;
@@ -1091,14 +1056,6 @@
           aURL.push(
             ["ff9100", "Setup", "#", "1", "R"]
         )
-        }
-
-        aURL.push(
-          ["0dd1a7", "Sources", "#", "1", "R"]
-        );
-
-        if (bUpdate) {
-          aURL.push(["FF0000", "Update", "#", "1", "R"]);
         }
 
         // Append the new div to the parent div
@@ -1470,6 +1427,3 @@
           if (!solarTimer) { fetchSolarConditions(); solarTimer = setInterval(fetchSolarConditions, 5 * 60 * 1000); }
         }
       });
-
-      // Run the check when the application starts
-      checkForUpdates();
