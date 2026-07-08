@@ -19,7 +19,7 @@ var aURL = [
   [
     "#2196f3",
     "CONTEST CALENDAR",
-    "https://www.contestcalendar.com/fivewkcal.html",
+    "https://www.contestcalendar.com/fivewkcal.php",
     1,
     "undefined"
   ],
@@ -47,7 +47,7 @@ var aURL = [
   [
     "#2196f3",
     "TIME",
-    "https://time.is/",
+    "https://24timezones.com/Kuala_Lumpur/time",
     1,
     "R"
   ],
@@ -66,14 +66,14 @@ var aURL = [
     "R"
   ],
   [
-    "#000000",
+    "#30363d",
     "RAIN",
-    "https://www.accuweather.com/en/my/national/weather-radar",
+    "https://www.ventusky.com/?p=3.1;101.6;4&l=radar",
     1,
     "R"
   ],
   [
-    "#000000",
+    "#30363d",
     "DX CLUSTER MAP",
     "https://dxcluster.dxcenter.com/",
     1,
@@ -109,7 +109,7 @@ var aIMG = [
   ],
   [
     "GREY LINE",
-    "https://www.timeanddate.com/scripts/sunmap.php?iso=now"
+    "https://static.die.net/earth/mercator/1600.jpg"
   ],
   [
     "NOAA D-RAP",
