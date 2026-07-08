@@ -1007,10 +1007,10 @@
         rssIntervals.forEach(clearInterval);
         rssIntervals = [];
 
+        // rss2json returns JSON (most reliable); allorigins returns raw XML
         const proxyList = [
-          (url) => "https://corsproxy.io/?url=" + encodeURIComponent(url),
-          (url) => "https://api.allorigins.win/raw?url=" + encodeURIComponent(url),
           (url) => "https://api.rss2json.com/v1/api.json?rss_url=" + encodeURIComponent(url),
+          (url) => "https://api.allorigins.win/raw?url=" + encodeURIComponent(url),
         ];
         const rssTickerContent = document.getElementById("rss-ticker-content");
 
@@ -1039,6 +1039,57 @@
             });
         }
 
+        // Parse JSON response from rss2json API
+        function parseJsonFeed(data, rssUrl) {
+          const obj = JSON.parse(data);
+          if (obj.status !== 'ok' || !obj.items) {
+            throw new Error(obj.message || 'rss2json returned error status');
+          }
+          const feedTitle = obj.feed?.title || "Unknown Feed";
+          const lastUpdated = obj.items?.[0]?.pubDate || "Unknown Time";
+          const items = obj.items;
+          console.log(`Found ${items.length} items in feed: ${rssUrl}`);
+          let feedText = `<span style="font-size: 0.9em; color: var(--text-muted);"> ${feedTitle} - Last Updated: ${lastUpdated} </span> - `;
+          items.forEach((item) => {
+            const title = item.title || "No title";
+            const link = item.link || "#";
+            feedText += `<a href="${link}" target="_blank" rel="noopener" style="margin-right: 50px;">${title}</a>`;
+          });
+          return feedText;
+        }
+
+        // Parse XML response from allorigins (raw RSS/Atom)
+        function parseXmlFeed(data, rssUrl) {
+          const parser = new DOMParser();
+          const xmlDoc = parser.parseFromString(data, "text/xml");
+          // Check for parse error
+          if (xmlDoc.querySelector("parsererror")) {
+            throw new Error("XML parse error");
+          }
+          let itmTag = "item";
+          if (xmlDoc.querySelector("entry")) itmTag = "entry";
+          const feedTitle = xmlDoc.querySelector("channel > title, feed > title")?.textContent || "Unknown Feed";
+          const lastUpdated = xmlDoc.querySelector("channel > lastBuildDate, feed > updated")?.textContent ||
+                              xmlDoc.querySelector("channel > pubDate, feed > published")?.textContent || "Unknown Time";
+          const items = xmlDoc.querySelectorAll(itmTag);
+          console.log(`Found ${items.length} items in feed: ${rssUrl}`);
+          let feedText = `<span style="font-size: 0.9em; color: var(--text-muted);"> ${feedTitle} - Last Updated: ${lastUpdated} </span> - `;
+          items.forEach((item) => {
+            const title = item.querySelector("title")?.textContent || "No title";
+            const linkElement = item.querySelector("link");
+            let link = "";
+            if (linkElement) {
+              if (linkElement.getAttribute("href")) {
+                link = linkElement.getAttribute("href");
+              } else {
+                link = linkElement.textContent;
+              }
+            }
+            feedText += `<a href="${link}" target="_blank" rel="noopener" style="margin-right: 50px;">${title}</a>`;
+          });
+          return feedText;
+        }
+
         aRSS.forEach(([rssUrl, interval], index) => {
           const fetchFeed = () => {
             // Prevent duplicate concurrent fetches for the same URL
@@ -1049,46 +1100,18 @@
             console.log(`Fetching feed: ${rssUrl}`);
             const fetchPromise = fetchWithFallback(rssUrl)
               .then((data) => {
-                const parser = new DOMParser();
-                const xmlDoc = parser.parseFromString(data, "text/xml");
-
-                // Automatically detect whether the feed uses "item" or "entry" tags
-                let itmTag = "item"; // Default to RSS
-                if (xmlDoc.querySelector("entry")) {
-                  itmTag = "entry"; // Switch to Atom if "entry" is found
+                // Detect JSON vs XML response and parse accordingly
+                let feedText;
+                const trimmed = data.trimStart();
+                if (trimmed.startsWith('{')) {
+                  // JSON response from rss2json
+                  feedText = parseJsonFeed(data, rssUrl);
+                } else {
+                  // XML response from allorigins
+                  feedText = parseXmlFeed(data, rssUrl);
                 }
-
-                const feedTitle = xmlDoc.querySelector("channel > title, feed > title")?.textContent || "Unknown Feed";
-                const lastUpdated = xmlDoc.querySelector("channel > lastBuildDate, feed > updated")?.textContent ||
-                                    xmlDoc.querySelector("channel > pubDate, feed > published")?.textContent || "Unknown Time";
-
-                const items = xmlDoc.querySelectorAll(itmTag);
-                console.log(`Found ${items.length} items in feed: ${rssUrl}`);
-
-                let feedText = `<span style="font-size: 0.9em; color: var(--text-muted);"> ${feedTitle} - Last Updated: ${lastUpdated} </span> - `;
-
-                items.forEach((item) => {
-                  const title = item.querySelector("title").textContent;
-                  // Handle both <link href="..."> and <link>...</link>
-                  const linkElement = item.querySelector("link");
-                  let link = "";
-                  if (linkElement) {
-                    if (linkElement.getAttribute("href")) {
-                      link = linkElement.getAttribute("href");
-                    } else {
-                      link = linkElement.textContent;
-                    }
-                  }
-                  feedText += `<a href="${link}" target="_blank" rel="noopener" style="margin-right: 50px;">${title}</a>`;
-                });
-
-                // Update the content for this feed in the array
                 feedContents[index] = feedText;
-
-                // Combine all feeds and update the ticker content
                 rssTickerContent.innerHTML = feedContents.join("") || "Failed to load RSS feeds.";
-
-                // Update the ticker speed
                 updateTickerSpeed();
               })
               .catch((error) => {
