@@ -1,0 +1,19 @@
+{
+  "name": "9M2PJU Ham Radio Dashboard",
+  "short_name": "Ham Dashboard",
+  "description": "Personalized ham radio dashboard for Malaysian amateur radio operators.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
