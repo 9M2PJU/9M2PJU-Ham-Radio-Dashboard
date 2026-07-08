@@ -100,7 +100,7 @@ var aIMG = [
   ],
   [
     "WORLD SEISMIC",
-    "iframe|https://www.arcgis.com/apps/View/index.html?appid=e59532bdfb334b1da691f74e7e879685"
+    "iframe|seismic.html"
   ],
   [
     "LIVE DX MAP",
