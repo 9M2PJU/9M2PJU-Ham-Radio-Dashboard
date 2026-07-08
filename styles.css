@@ -211,6 +211,7 @@ body, html {
   overflow: hidden;
   position: relative;
   width: calc(100% - 12px);
+  padding-bottom: 32px;
 }
 
 .image-container {

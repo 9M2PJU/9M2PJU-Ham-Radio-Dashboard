@@ -1159,9 +1159,9 @@
         var layout_grid = "auto ".repeat(layout_cols);
         var layout_width = 99.6 / layout_cols + "vw";
         // Reserve space for top bar (~47px), solar widget (~30px), RSS
-        // ticker (~27px), dashboard margins (12px), and grid gaps between
-        // rows ((rows-1)*6px). Total fixed overhead ~116px.
-        var overhead = 116 + (layout_rows - 1) * 6;
+        // ticker (~27px), dashboard margins (12px), dashboard bottom padding (32px),
+        // and grid gaps between rows ((rows-1)*6px). Total fixed overhead ~148px.
+        var overhead = 148 + (layout_rows - 1) * 6;
         var layout_height = "calc((100vh - " + overhead + "px) / " + layout_rows + ")";
         var iTiles = layout_cols * layout_rows;
         document.documentElement.style.setProperty(
