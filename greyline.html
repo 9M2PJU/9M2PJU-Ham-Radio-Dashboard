@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grey Line Map</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; background: #0d1117; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #c9d1d9; }
+    #map { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #0d1117; }
+    .leaflet-control-attribution { background: rgba(13,17,23,0.8) !important; color: #8b949e !important; font-size: 10px !important; }
+    .leaflet-control-attribution a { color: #58a6ff !important; }
+    .leaflet-control-zoom a { background: #161b22 !important; color: #c9d1d9 !important; border-color: #30363d !important; }
+    .leaflet-control-zoom a:hover { background: #21262d !important; }
+    #info-panel {
+      position: absolute; top: 10px; right: 10px; z-index: 1000;
+      background: rgba(13,17,23,0.92); border: 1px solid #30363d; border-radius: 8px;
+      padding: 10px 14px; font-size: 12px; line-height: 1.6; min-width: 160px;
+      backdrop-filter: blur(8px);
+    }
+    #info-panel h3 { font-size: 13px; margin-bottom: 6px; color: #f0f6fc; }
+    #info-panel .stat { display: flex; justify-content: space-between; }
+    #info-panel .stat span:last-child { color: #58a6ff; font-weight: 600; }
+    #info-panel #updated { font-size: 10px; color: #8b949e; margin-top: 6px; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <div id="info-panel">
+    <h3>Grey Line (Day/Night)</h3>
+    <div class="stat"><span>UTC:</span><span id="utc-time">—</span></div>
+    <div class="stat"><span>Sun lat:</span><span id="sun-lat">—</span></div>
+    <div id="updated"></div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    // ===== Terminator calculation (from joergdietrich/Leaflet.Terminator, MIT) =====
+    function julian(date) { return (date / 86400000) + 2440587.5; }
+    function GMST(julianDay) {
+      var d = julianDay - 2451545.0;
+      return (18.697374558 + 24.06570982441908 * d) % 24;
+    }
+    var R2D = 180 / Math.PI, D2R = Math.PI / 180;
+
+    function sunEclipticPosition(julianDay) {
+      var n = julianDay - 2451545.0;
+      var L = 280.460 + 0.9856474 * n; L %= 360;
+      var g = 357.528 + 0.9856003 * n; g %= 360;
+      var lambda = L + 1.915 * Math.sin(g * D2R) + 0.02 * Math.sin(2 * g * D2R);
+      var R = 1.00014 - 0.01671 * Math.cos(g * D2R) - 0.0014 * Math.cos(2 * g * D2R);
+      return { lambda: lambda, R: R };
+    }
+    function eclipticObliquity(julianDay) {
+      var T = (julianDay - 2451545.0) / 36525;
+      return 23.43929111 - T * (46.836769 / 3600 - T * (0.0001831 / 3600 + T * (0.00200340 / 3600 - T * (0.576e-6 / 3600 - T * 4.34e-8 / 3600))));
+    }
+    function sunEquatorialPosition(sunEclLng, eclObliq) {
+      var alpha = Math.atan(Math.cos(eclObliq * D2R) * Math.tan(sunEclLng * D2R)) * R2D;
+      var delta = Math.asin(Math.sin(eclObliq * D2R) * Math.sin(sunEclLng * D2R)) * R2D;
+      var lQuadrant = Math.floor(sunEclLng / 90) * 90;
+      var raQuadrant = Math.floor(alpha / 90) * 90;
+      alpha = alpha + (lQuadrant - raQuadrant);
+      return { alpha: alpha, delta: delta };
+    }
+    function hourAngle(lng, sunPos, gst) { return (gst + lng / 15) * 15 - sunPos.alpha; }
+    function terminatorLat(ha, sunPos) { return Math.atan(-Math.cos(ha * D2R) / Math.tan(sunPos.delta * D2R)) * R2D; }
+
+    function computeTerminator() {
+      var today = new Date();
+      var julianDay = julian(today);
+      var gst = GMST(julianDay);
+      var sunEclPos = sunEclipticPosition(julianDay);
+      var eclObliq = eclipticObliquity(julianDay);
+      var sunEqPos = sunEquatorialPosition(sunEclPos.lambda, eclObliq);
+      var lngRange = 720, resolution = 2;
+      var latLng = [];
+      for (var i = 0; i <= lngRange * resolution; i++) {
+        var lng = -lngRange / 2 + i / resolution;
+        var ha = hourAngle(lng, sunEqPos, gst);
+        latLng[i + 1] = [terminatorLat(ha, sunEqPos), lng];
+      }
+      if (sunEqPos.delta < 0) {
+        latLng[0] = [90, -lngRange / 2];
+        latLng[latLng.length] = [90, lngRange / 2];
+      } else {
+        latLng[0] = [-90, -lngRange / 2];
+        latLng[latLng.length] = [-90, lngRange / 2];
+      }
+      return { points: latLng, sunDelta: sunEqPos.delta };
+    }
+
+    // ===== Map setup =====
+    var map = L.map('map', {
+      worldCopyJump: true, zoomControl: true, minZoom: 1, maxZoom: 12,
+    }).setView([20, 0], 2);
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      subdomains: 'abcd',
+    }).addTo(map);
+
+    var nightLayer = null;
+    var sunMarker = null;
+
+    function updateTerminator() {
+      var result = computeTerminator();
+      if (nightLayer) map.removeLayer(nightLayer);
+      if (sunMarker) map.removeLayer(sunMarker);
+
+      // Night region polygon (semi-transparent dark overlay)
+      nightLayer = L.polygon(result.points, {
+        color: '#1a1a2e',
+        weight: 1.5,
+        opacity: 0.7,
+        fillColor: '#0a0a1a',
+        fillOpacity: 0.55,
+        interactive: false,
+      }).addTo(map);
+
+      // Sun subsolar point
+      var sunLng = ((new Date().getUTCHours() + new Date().getUTCMinutes() / 60) * 15 - 180) % 360;
+      if (sunLng > 180) sunLng -= 360;
+      if (sunLng < -180) sunLng += 360;
+      // More accurate: compute from GST
+      var jd = julian(new Date());
+      var gst = GMST(jd);
+      var sunEclPos = sunEclipticPosition(jd);
+      var eclObliq = eclipticObliquity(jd);
+      var sunEqPos = sunEquatorialPosition(sunEclPos.lambda, eclObliq);
+      // Subsolar longitude = GST*15 - RA (in degrees), wrapped
+      var subsolarLng = (gst * 15 - sunEqPos.alpha);
+      while (subsolarLng > 180) subsolarLng -= 360;
+      while (subsolarLng < -180) subsolarLng += 360;
+      var subsolarLat = sunEqPos.delta;
+
+      sunMarker = L.circleMarker([subsolarLat, subsolarLng], {
+        radius: 6, fillColor: '#ffd700', color: '#ffd700',
+        weight: 1, opacity: 0.9, fillOpacity: 0.7,
+      }).addTo(map);
+      sunMarker.bindTooltip('Subsolar point (' + subsolarLat.toFixed(1) + '°, ' + subsolarLng.toFixed(1) + '°)', { permanent: false });
+
+      // Update info panel
+      var now = new Date();
+      document.getElementById('utc-time').textContent = now.toISOString().slice(11, 19);
+      document.getElementById('sun-lat').textContent = subsolarLat.toFixed(1) + '°, ' + subsolarLng.toFixed(1) + '°';
+      document.getElementById('updated').textContent = 'Updated: ' + now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+    }
+
+    updateTerminator();
+    // Update every 1 minute (terminator moves slowly)
+    setInterval(updateTerminator, 60000);
+  </script>
+</body>
+</html>

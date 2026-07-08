@@ -109,7 +109,7 @@ var aIMG = [
   ],
   [
     "GREY LINE",
-    "https://static.die.net/earth/mercator/1600.jpg"
+    "iframe|greyline.html"
   ],
   [
     "NOAA D-RAP",

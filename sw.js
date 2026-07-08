@@ -1,5 +1,5 @@
 // Service worker for 9M2PJU Ham Radio Dashboard - offline shell caching
-const CACHE_NAME = "hamdash-v5";
+const CACHE_NAME = "hamdash-v6";
 const SHELL = [
   "./",
   "./index.html",
@@ -10,6 +10,7 @@ const SHELL = [
   "./manifest.json",
   "./favicon.svg",
   "./seismic.html",
+  "./greyline.html",
 ];
 
 self.addEventListener("install", (event) => {
