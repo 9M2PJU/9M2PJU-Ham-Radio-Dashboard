@@ -40,7 +40,7 @@ var aURL = [
   [
     "#2196f3",
     "APRS MAP",
-    "https://maps.hamradio.my",
+    "https://aprs.fi",
     1,
     "undefined"
   ],
