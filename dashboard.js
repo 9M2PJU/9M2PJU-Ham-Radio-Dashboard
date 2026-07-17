@@ -1345,6 +1345,14 @@
             }
           };
 
+          // Hover hint: tells users to double-click to unlock interaction
+          // with embedded iframes/videos. Lives inside clickOverlay so it
+          // auto-hides once the tile is unlocked (overlay display:none).
+          var interactHint = document.createElement("div");
+          interactHint.className = "interact-hint";
+          interactHint.textContent = "Double-click to interact";
+          clickOverlay.appendChild(interactHint);
+
           var newSrc = " ";
 
           if (isVideo(innerArray[1])) {
