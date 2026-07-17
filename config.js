@@ -40,7 +40,7 @@ var aURL = [
   [
     "#2196f3",
     "APRS MAP",
-    "https://aprs.world/",
+    "https://aprs-map.info/",
     1,
     "undefined"
   ],
